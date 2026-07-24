@@ -25,28 +25,28 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-neutral-950 text-white border-t border-neutral-800 pt-16 pb-12">
+    <footer className="bg-[#111111] text-white border-t border-slate-800 pt-16 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="grid md:grid-cols-12 gap-10 pb-12 border-b border-neutral-800">
+        <div className="grid md:grid-cols-12 gap-10 pb-12 border-b border-slate-800">
           
           {/* Brand Column */}
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 flex items-center justify-center text-neutral-950 font-black text-sm shadow-md shadow-amber-500/20">
+              <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-600/30">
                 E
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-bold tracking-tight text-white">
                   {siteConfig.logoText}
                 </span>
-                <span className="text-[10px] uppercase tracking-widest text-neutral-400 font-medium">
+                <span className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">
                   {siteConfig.brandName}
                 </span>
               </div>
             </div>
 
-            <p className="text-sm text-neutral-400 max-w-sm leading-relaxed">
+            <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
               Professional websites designed to help businesses grow online.
             </p>
 
@@ -57,7 +57,7 @@ export const Footer: React.FC = () => {
                   href={siteConfig.socialLinks.instagram} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-400 hover:text-amber-400 hover:border-amber-400/40 transition-colors"
+                  className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-blue-500 transition-colors"
                   aria-label="Instagram"
                 >
                   <Instagram className="w-4 h-4" />
@@ -68,7 +68,7 @@ export const Footer: React.FC = () => {
                   href={siteConfig.socialLinks.linkedin} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-400 hover:text-amber-400 hover:border-amber-400/40 transition-colors"
+                  className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-blue-500 transition-colors"
                   aria-label="LinkedIn"
                 >
                   <Linkedin className="w-4 h-4" />
@@ -79,7 +79,7 @@ export const Footer: React.FC = () => {
                   href={siteConfig.socialLinks.twitter} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-400 hover:text-amber-400 hover:border-amber-400/40 transition-colors"
+                  className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-blue-500 transition-colors"
                   aria-label="Twitter"
                 >
                   <Twitter className="w-4 h-4" />
@@ -90,7 +90,7 @@ export const Footer: React.FC = () => {
                   href={siteConfig.socialLinks.github} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-400 hover:text-amber-400 hover:border-amber-400/40 transition-colors"
+                  className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-blue-500 transition-colors"
                   aria-label="GitHub"
                 >
                   <Github className="w-4 h-4" />
@@ -101,7 +101,7 @@ export const Footer: React.FC = () => {
                   href={siteConfig.socialLinks.dribbble} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-400 hover:text-amber-400 hover:border-amber-400/40 transition-colors"
+                  className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-blue-500 transition-colors"
                   aria-label="Dribbble"
                 >
                   <Dribbble className="w-4 h-4" />
@@ -112,16 +112,16 @@ export const Footer: React.FC = () => {
 
           {/* Quick Navigation Links */}
           <div className="md:col-span-4 space-y-3">
-            <h4 className="text-xs font-semibold text-neutral-300 uppercase tracking-wider">
+            <h4 className="text-xs font-semibold text-slate-200 uppercase tracking-wider">
               Navigation
             </h4>
-            <ul className="space-y-2 text-sm text-neutral-400">
+            <ul className="space-y-2 text-sm text-slate-400 font-medium">
               {footerLinks.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
                     onClick={(e) => handleLinkClick(e, link.href)}
-                    className="hover:text-amber-400 transition-colors"
+                    className="hover:text-blue-400 transition-colors"
                   >
                     {link.label}
                   </a>
@@ -132,15 +132,15 @@ export const Footer: React.FC = () => {
 
           {/* Business Hours / Availability */}
           <div className="md:col-span-3 space-y-3">
-            <h4 className="text-xs font-semibold text-neutral-300 uppercase tracking-wider">
+            <h4 className="text-xs font-semibold text-slate-200 uppercase tracking-wider">
               Service Status
             </h4>
-            <div className="p-3.5 rounded-xl bg-neutral-900 border border-neutral-800 space-y-2">
-              <div className="flex items-center gap-2 text-xs text-emerald-400 font-medium">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <div className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+              <div className="flex items-center gap-2 text-xs text-emerald-400 font-bold">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 <span>Accepting New Clients</span>
               </div>
-              <p className="text-xs text-neutral-400">
+              <p className="text-xs text-slate-400">
                 Turnaround times range from 3 to 10 days depending on project scope.
               </p>
             </div>
@@ -149,12 +149,12 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar & Scroll To Top */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-400">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 font-medium">
           <p>© 2026 ENJEL WEB DESIGN. All rights reserved.</p>
 
           <button
             onClick={scrollToTop}
-            className="p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-amber-400 hover:border-amber-400/40 transition-colors flex items-center gap-1.5"
+            className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-blue-500 transition-colors flex items-center gap-1.5 font-semibold"
             aria-label="Scroll to top"
           >
             <span>Back to top</span>

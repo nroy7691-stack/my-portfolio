@@ -104,25 +104,25 @@ I would like to discuss my project with you.`;
   };
 
   return (
-    <section id="contact" className="py-20 lg:py-28 bg-neutral-900/80 relative border-t border-neutral-800">
+    <section id="contact" className="py-20 lg:py-28 bg-[#F7F7F7] relative border-t border-slate-200/80">
       
       {/* Background radial highlight */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-500/5 rounded-full blur-[160px] pointer-events-none"></div>
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[160px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-xs font-semibold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-900 text-xs font-semibold uppercase tracking-wider">
+            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
             <span>Get In Touch</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#111111] tracking-tight">
             Let's Build Something Great Together
           </h2>
 
-          <p className="text-base sm:text-lg text-neutral-300 leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
             Fill out the form below to send your project details directly via WhatsApp for a fast, personal response.
           </p>
         </div>
@@ -135,74 +135,74 @@ I would like to discuss my project with you.`;
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="lg:col-span-7 rounded-2xl bg-neutral-950 border border-neutral-800 p-6 sm:p-8 shadow-2xl"
+            className="lg:col-span-7 rounded-2xl bg-white border border-[#E5E7EB] p-6 sm:p-8 hover:border-[#2563EB] shadow-sm hover:shadow-md transition-all duration-300"
           >
             <form onSubmit={handleSubmit} className="space-y-5">
               
               {/* Name */}
               <div>
-                <label className="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-2">
-                  Full Name <span className="text-amber-400">*</span>
+                <label className="block text-xs font-semibold text-[#111827] uppercase tracking-wider mb-2">
+                  Full Name <span className="text-[#2563EB]">*</span>
                 </label>
                 <input
                   type="text"
                   placeholder="Enter your name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className={`w-full px-4 py-3 rounded-xl bg-neutral-900 border text-white placeholder-neutral-500 text-sm focus:outline-none transition-colors ${
-                    errors.name ? 'border-red-500/80 focus:border-red-500' : 'border-neutral-800 focus:border-amber-400'
+                  className={`w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border text-[#111827] placeholder-[#6B7280] text-sm focus:outline-none transition-colors ${
+                    errors.name ? 'border-red-500 focus:border-red-500' : 'border-[#E5E7EB] focus:border-[#2563EB]'
                   }`}
                 />
-                {errors.name && <p className="text-xs text-red-400 mt-1">{errors.name}</p>}
+                {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
               </div>
 
               {/* Email & Phone Grid */}
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-2">
-                    Email Address <span className="text-amber-400">*</span>
+                  <label className="block text-xs font-semibold text-[#111827] uppercase tracking-wider mb-2">
+                    Email Address <span className="text-[#2563EB]">*</span>
                   </label>
                   <input
                     type="email"
                     placeholder="name@example.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className={`w-full px-4 py-3 rounded-xl bg-neutral-900 border text-white placeholder-neutral-500 text-sm focus:outline-none transition-colors ${
-                      errors.email ? 'border-red-500/80 focus:border-red-500' : 'border-neutral-800 focus:border-amber-400'
+                    className={`w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border text-[#111827] placeholder-[#6B7280] text-sm focus:outline-none transition-colors ${
+                      errors.email ? 'border-red-500 focus:border-red-500' : 'border-[#E5E7EB] focus:border-[#2563EB]'
                     }`}
                   />
-                  {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email}</p>}
+                  {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-2">
-                    Phone / WhatsApp <span className="text-amber-400">*</span>
+                  <label className="block text-xs font-semibold text-[#111827] uppercase tracking-wider mb-2">
+                    Phone / WhatsApp <span className="text-[#2563EB]">*</span>
                   </label>
                   <input
                     type="tel"
                     placeholder="+1 234 567 890"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className={`w-full px-4 py-3 rounded-xl bg-neutral-900 border text-white placeholder-neutral-500 text-sm focus:outline-none transition-colors ${
-                      errors.phone ? 'border-red-500/80 focus:border-red-500' : 'border-neutral-800 focus:border-amber-400'
+                    className={`w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border text-[#111827] placeholder-[#6B7280] text-sm focus:outline-none transition-colors ${
+                      errors.phone ? 'border-red-500 focus:border-red-500' : 'border-[#E5E7EB] focus:border-[#2563EB]'
                     }`}
                   />
-                  {errors.phone && <p className="text-xs text-red-400 mt-1">{errors.phone}</p>}
+                  {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
                 </div>
               </div>
 
               {/* Project Type */}
               <div>
-                <label className="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-[#111827] uppercase tracking-wider mb-2">
                   Project Type
                 </label>
                 <select
                   value={formData.projectType}
                   onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl bg-neutral-900 border border-neutral-800 text-white text-sm focus:outline-none focus:border-amber-400 transition-colors"
+                  className="w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border border-[#E5E7EB] text-[#111827] text-sm focus:outline-none focus:border-[#2563EB] transition-colors"
                 >
                   {projectOptions.map((opt) => (
-                    <option key={opt} value={opt} className="bg-neutral-900 text-white">
+                    <option key={opt} value={opt} className="bg-white text-[#111827]">
                       {opt}
                     </option>
                   ))}
@@ -211,31 +211,31 @@ I would like to discuss my project with you.`;
 
               {/* Message */}
               <div>
-                <label className="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-2">
-                  Project Details / Message <span className="text-amber-400">*</span>
+                <label className="block text-xs font-semibold text-[#111827] uppercase tracking-wider mb-2">
+                  Project Details / Message <span className="text-[#2563EB]">*</span>
                 </label>
                 <textarea
                   rows={4}
                   placeholder="Tell me about your business, website goals, timeline..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className={`w-full px-4 py-3 rounded-xl bg-neutral-900 border text-white placeholder-neutral-500 text-sm focus:outline-none transition-colors ${
-                    errors.message ? 'border-red-500/80 focus:border-red-500' : 'border-neutral-800 focus:border-amber-400'
+                  className={`w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border text-[#111827] placeholder-[#6B7280] text-sm focus:outline-none transition-colors ${
+                    errors.message ? 'border-red-500 focus:border-red-500' : 'border-[#E5E7EB] focus:border-[#2563EB]'
                   }`}
                 />
-                {errors.message && <p className="text-xs text-red-400 mt-1">{errors.message}</p>}
+                {errors.message && <p className="text-xs text-red-500 mt-1">{errors.message}</p>}
               </div>
 
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full inline-flex items-center justify-center gap-3 px-6 py-4 rounded-xl text-base font-bold text-neutral-950 bg-gradient-to-r from-emerald-400 via-emerald-300 to-amber-300 hover:from-emerald-300 hover:to-amber-200 transition-all duration-200 shadow-xl shadow-emerald-500/20 hover:shadow-emerald-500/35 hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full inline-flex items-center justify-center gap-3 px-6 py-4 rounded-xl text-base font-bold text-white bg-[#2563EB] hover:bg-blue-700 transition-all duration-200 shadow-md shadow-blue-600/20 hover:shadow-blue-600/35 hover:-translate-y-0.5 active:translate-y-0"
               >
-                <MessageSquare className="w-5 h-5 text-neutral-950 fill-neutral-950" />
+                <MessageSquare className="w-5 h-5 text-white fill-white" />
                 <span>Send via WhatsApp</span>
               </button>
 
-              <p className="text-[11px] text-neutral-400 text-center font-mono pt-1">
+              <p className="text-[11px] text-[#6B7280] text-center font-mono pt-1">
                 ⚡ Direct instant connection. No backend registration or email delay.
               </p>
 
@@ -251,98 +251,98 @@ I would like to discuss my project with you.`;
             className="lg:col-span-5 space-y-6"
           >
             {/* Info Box */}
-            <div className="rounded-2xl bg-neutral-950 border border-neutral-800 p-6 space-y-6">
+            <div className="rounded-2xl bg-white border border-[#E5E7EB] p-6 space-y-6 shadow-sm hover:shadow-md hover:border-[#2563EB] transition-all duration-300">
               
               <div>
-                <h3 className="text-xl font-bold text-white mb-2">Direct Contact Info</h3>
-                <p className="text-xs text-neutral-400 leading-relaxed">
-                  Reach out directly using any of the channels below. Details are configured centrally in <code className="text-amber-300 font-mono">/src/config/siteConfig.ts</code>.
+                <h3 className="text-xl font-bold text-[#111827] mb-2">Direct Contact Info</h3>
+                <p className="text-xs text-[#6B7280] leading-relaxed">
+                  Reach out directly using any of the channels below. Details are configured centrally in <code className="text-[#2563EB] font-mono bg-[#EFF6FF] px-1 py-0.5 rounded border border-[#E5E7EB]">/src/config/siteConfig.ts</code>.
                 </p>
               </div>
 
               <div className="space-y-4 pt-2">
                 
                 {/* WhatsApp */}
-                <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-between">
+                <div className="p-4 rounded-xl bg-white border border-[#E5E7EB] hover:bg-[#F8FAFC] hover:border-[#2563EB] transition-all duration-300 flex items-center justify-between shadow-sm">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-[#EFF6FF] border border-[#E5E7EB] text-[#2563EB] flex items-center justify-center">
                       <MessageSquare className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className="text-[10px] font-mono uppercase text-neutral-400 block">WhatsApp</span>
-                      <span className="text-sm font-semibold text-white">
+                      <span className="text-[10px] font-mono uppercase text-[#6B7280] block">WhatsApp</span>
+                      <span className="text-sm font-semibold text-[#111827]">
                         {siteConfig.whatsappNumber}
                       </span>
                     </div>
                   </div>
                   <button 
                     onClick={() => handleCopy(siteConfig.whatsappNumber, 'whatsapp')}
-                    className="p-2 rounded-lg bg-neutral-800 text-neutral-300 hover:text-white transition-colors text-xs"
+                    className="p-2 rounded-lg bg-white border border-[#E5E7EB] text-[#6B7280] hover:text-[#111827] hover:bg-[#F8FAFC] transition-colors text-xs shadow-sm"
                     title="Copy WhatsApp Number"
                   >
-                    {copiedField === 'whatsapp' ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                    {copiedField === 'whatsapp' ? <Check className="w-4 h-4 text-[#2563EB]" /> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
 
                 {/* Phone */}
-                <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-between">
+                <div className="p-4 rounded-xl bg-white border border-[#E5E7EB] hover:bg-[#F8FAFC] hover:border-[#2563EB] transition-all duration-300 flex items-center justify-between shadow-sm">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-[#EFF6FF] border border-[#E5E7EB] text-[#2563EB] flex items-center justify-center">
                       <Phone className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className="text-[10px] font-mono uppercase text-neutral-400 block">Phone</span>
-                      <span className="text-sm font-semibold text-white">
+                      <span className="text-[10px] font-mono uppercase text-[#6B7280] block">Phone</span>
+                      <span className="text-sm font-semibold text-[#111827]">
                         {siteConfig.phone}
                       </span>
                     </div>
                   </div>
                   <button 
                     onClick={() => handleCopy(siteConfig.phone, 'phone')}
-                    className="p-2 rounded-lg bg-neutral-800 text-neutral-300 hover:text-white transition-colors text-xs"
+                    className="p-2 rounded-lg bg-white border border-[#E5E7EB] text-[#6B7280] hover:text-[#111827] hover:bg-[#F8FAFC] transition-colors text-xs shadow-sm"
                     title="Copy Phone Number"
                   >
-                    {copiedField === 'phone' ? <Check className="w-4 h-4 text-amber-400" /> : <Copy className="w-4 h-4" />}
+                    {copiedField === 'phone' ? <Check className="w-4 h-4 text-[#2563EB]" /> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
 
                 {/* Email */}
-                <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-between">
+                <div className="p-4 rounded-xl bg-white border border-[#E5E7EB] hover:bg-[#F8FAFC] hover:border-[#2563EB] transition-all duration-300 flex items-center justify-between shadow-sm">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-[#EFF6FF] border border-[#E5E7EB] text-[#2563EB] flex items-center justify-center">
                       <Mail className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className="text-[10px] font-mono uppercase text-neutral-400 block">Email</span>
-                      <span className="text-sm font-semibold text-white truncate sm:max-w-none">
+                      <span className="text-[10px] font-mono uppercase text-[#6B7280] block">Email</span>
+                      <span className="text-sm font-semibold text-[#111827] truncate sm:max-w-none">
                         {siteConfig.email}
                       </span>
                     </div>
                   </div>
                   <button 
                     onClick={() => handleCopy(siteConfig.email, 'email')}
-                    className="p-2 rounded-lg bg-neutral-800 text-neutral-300 hover:text-white transition-colors text-xs"
+                    className="p-2 rounded-lg bg-white border border-[#E5E7EB] text-[#6B7280] hover:text-[#111827] hover:bg-[#F8FAFC] transition-colors text-xs shadow-sm"
                     title="Copy Email Address"
                   >
-                    {copiedField === 'email' ? <Check className="w-4 h-4 text-blue-400" /> : <Copy className="w-4 h-4" />}
+                    {copiedField === 'email' ? <Check className="w-4 h-4 text-[#2563EB]" /> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
 
               </div>
 
               {/* Working Hours / Location */}
-              <div className="pt-4 border-t border-neutral-800 flex items-center gap-2 text-xs text-neutral-400">
-                <MapPin className="w-4 h-4 text-amber-400" />
+              <div className="pt-4 border-t border-[#E5E7EB] flex items-center gap-2 text-xs text-[#6B7280]">
+                <MapPin className="w-4 h-4 text-[#2563EB]" />
                 <span>{siteConfig.location}</span>
               </div>
 
             </div>
 
             {/* Quick config notification card */}
-            <div className="p-4 rounded-xl bg-neutral-900/60 border border-neutral-800/80 text-xs text-neutral-400 space-y-1">
-              <span className="text-amber-400 font-semibold block">⚙️ Site Configuration Notice:</span>
+            <div className="p-4 rounded-xl bg-white border border-[#E5E7EB] hover:bg-[#F8FAFC] hover:border-[#2563EB] transition-all duration-300 text-xs text-[#6B7280] space-y-1 shadow-sm">
+              <span className="text-[#2563EB] font-semibold block">⚙️ Site Configuration Notice:</span>
               <p>
-                To replace WhatsApp number, Phone or Email with your real business details, open <code className="text-white font-mono">src/config/siteConfig.ts</code>.
+                To replace WhatsApp number, Phone or Email with your real business details, open <code className="text-[#111827] font-mono bg-[#EFF6FF] px-1 py-0.5 rounded border border-[#E5E7EB]">src/config/siteConfig.ts</code>.
               </p>
             </div>
 

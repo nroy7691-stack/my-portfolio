@@ -12,7 +12,7 @@ import { Footer } from './components/Footer';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans selection:bg-amber-400 selection:text-neutral-950">
+    <div className="min-h-screen bg-white text-[#111111] flex flex-col font-sans selection:bg-blue-600 selection:text-white">
       {/* Sticky Navigation */}
       <Navbar />
 

@@ -45,21 +45,21 @@ export const WhyChooseMe: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 lg:py-28 bg-neutral-900/60 relative border-t border-b border-neutral-800/80">
+    <section className="py-20 lg:py-28 bg-[#F7F7F7] relative border-t border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-xs font-semibold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-900 text-xs font-semibold uppercase tracking-wider">
+            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
             <span>Value Guarantee</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#111111] tracking-tight">
             Why Choose Me
           </h2>
 
-          <p className="text-base sm:text-lg text-neutral-300 leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
             I combine modern design aesthetics with strong technical execution to deliver web solutions that drive real business results.
           </p>
         </div>
@@ -75,17 +75,17 @@ export const WhyChooseMe: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="rounded-2xl bg-neutral-950 border border-neutral-800 p-6 space-y-3 hover:border-amber-400/40 transition-colors group"
+                className="rounded-2xl bg-white border border-[#E5E7EB] p-6 space-y-3 hover:bg-[#F8FAFC] hover:border-[#2563EB] shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 group"
               >
-                <div className="w-12 h-12 rounded-xl bg-amber-400/10 text-amber-400 flex items-center justify-center group-hover:bg-amber-400 group-hover:text-neutral-950 transition-colors">
+                <div className="w-12 h-12 rounded-xl bg-[#EFF6FF] border border-[#E5E7EB] text-[#2563EB] flex items-center justify-center group-hover:bg-[#2563EB] group-hover:text-white transition-colors shadow-sm">
                   <IconComponent className="w-6 h-6" />
                 </div>
                 
-                <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">
+                <h3 className="text-lg font-bold text-[#111827] group-hover:text-[#2563EB] transition-colors">
                   {item.title}
                 </h3>
                 
-                <p className="text-sm text-neutral-300 leading-relaxed">
+                <p className="text-sm text-[#6B7280] leading-relaxed">
                   {item.desc}
                 </p>
               </motion.div>
