@@ -32,10 +32,10 @@ export const siteConfig: SiteConfig = {
   // Contact Information
   // IMPORTANT: Set WHATSAPP_NUMBER to your WhatsApp number in international format without '+' or spaces.
   // Example: "919876543210"
-  whatsappNumber: "YOUR_WHATSAPP_NUMBER", // Replace with your real WhatsApp number e.g. "919876543210"
+  whatsappNumber: "917098090109",
   
-  phone: "+1 (555) 019-2834", // Replace with your phone number
-  email: "contact@enjelwebdesign.com", // Replace with your email address
+  phone: "+91 70980 90109", // Updated phone number
+  email: "nroy7691@gmail.com",
   location: "Available Worldwide / Remote",
 
   socialLinks: {

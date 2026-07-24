@@ -314,7 +314,7 @@ I would like to discuss my project with you.`;
                     </div>
                     <div>
                       <span className="text-[10px] font-mono uppercase text-neutral-400 block">Email</span>
-                      <span className="text-sm font-semibold text-white truncate max-w-[180px]">
+                      <span className="text-sm font-semibold text-white truncate sm:max-w-none">
                         {siteConfig.email}
                       </span>
                     </div>
