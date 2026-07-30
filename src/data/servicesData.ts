@@ -4,16 +4,68 @@ import {
   Gem, 
   Briefcase, 
   Layout, 
-  RefreshCw 
+  RefreshCw,
+  ShoppingBag,
+  Smartphone,
+  Globe,
+  ShieldCheck,
+  Zap,
+  Code,
+  Layers,
+  Sparkles,
+  Palette,
+  Rocket,
+  BarChart3,
+  Search,
+  MessageSquare,
+  CheckCircle2,
+  Cpu,
+  Server,
+  Wrench,
+  Monitor
 } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 export interface ServiceItem {
   id: string;
   title: string;
   description: string;
   iconName: string;
-  icon: any;
+  icon?: any;
   features: string[];
+}
+
+export const SERVICE_ICONS: Record<string, any> = {
+  Building2,
+  UtensilsCrossed,
+  Gem,
+  Briefcase,
+  Layout,
+  RefreshCw,
+  ShoppingBag,
+  Smartphone,
+  Globe,
+  ShieldCheck,
+  Zap,
+  Code,
+  Layers,
+  Sparkles,
+  Palette,
+  Rocket,
+  BarChart3,
+  Search,
+  MessageSquare,
+  CheckCircle2,
+  Cpu,
+  Server,
+  Wrench,
+  Monitor
+};
+
+export const AVAILABLE_ICON_NAMES = Object.keys(SERVICE_ICONS);
+
+export function getServiceIcon(iconName: string) {
+  return SERVICE_ICONS[iconName] || Building2;
 }
 
 export const servicesData: ServiceItem[] = [
@@ -96,3 +148,94 @@ export const servicesData: ServiceItem[] = [
     ]
   }
 ];
+
+const SERVICES_STORAGE_KEY = 'enjel_services_list';
+
+export function getStoredServices(): ServiceItem[] {
+  try {
+    const saved = localStorage.getItem(SERVICES_STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed.map(item => ({
+          ...item,
+          icon: getServiceIcon(item.iconName)
+        }));
+      }
+    }
+  } catch (err) {
+    console.error('Failed reading services from storage:', err);
+  }
+  return servicesData;
+}
+
+export function saveStoredServices(services: ServiceItem[]): void {
+  try {
+    const cleanList = services.map(({ icon, ...rest }) => rest);
+    localStorage.setItem(SERVICES_STORAGE_KEY, JSON.stringify(cleanList));
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('services_updated'));
+    }
+  } catch (err) {
+    console.error('Failed saving services to storage:', err);
+  }
+}
+
+export async function fetchServicesFromSupabase(): Promise<ServiceItem[]> {
+  const localServices = getStoredServices();
+  try {
+    const { data, error } = await supabase
+      .from('services')
+      .select('*')
+      .order('id', { ascending: true });
+
+    if (!error && data && data.length > 0) {
+      const remoteServices: ServiceItem[] = data.map((item: any) => ({
+        id: item.id || `service-${Date.now()}`,
+        title: item.title || 'Untitled Service',
+        description: item.description || '',
+        iconName: item.icon_name || item.iconName || 'Building2',
+        icon: getServiceIcon(item.icon_name || item.iconName || 'Building2'),
+        features: Array.isArray(item.features) 
+          ? item.features 
+          : typeof item.features === 'string' 
+            ? item.features.split(',').map((f: string) => f.trim()) 
+            : []
+      }));
+      saveStoredServices(remoteServices);
+      return remoteServices;
+    }
+  } catch (err) {
+    console.warn('Supabase services fetch fallback to local:', err);
+  }
+  return localServices;
+}
+
+export async function syncServicesToSupabase(services: ServiceItem[]): Promise<{ success: boolean; error?: string }> {
+  // Always update local state first for immediate UI updates
+  saveStoredServices(services);
+
+  try {
+    const payload = services.map(s => ({
+      id: s.id,
+      title: s.title,
+      description: s.description,
+      icon_name: s.iconName,
+      features: s.features
+    }));
+
+    const { error } = await supabase
+      .from('services')
+      .upsert(payload, { onConflict: 'id' });
+
+    if (error) {
+      console.warn('Supabase services upsert notice:', error.message);
+      return { success: true, error: error.message };
+    }
+    return { success: true };
+  } catch (err: any) {
+    console.warn('Supabase services upsert exception:', err);
+    return { success: true };
+  }
+}
+

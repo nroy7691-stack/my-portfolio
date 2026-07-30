@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { servicesData } from '../data/servicesData';
+import { 
+  ServiceItem, 
+  getStoredServices, 
+  fetchServicesFromSupabase, 
+  getServiceIcon 
+} from '../data/servicesData';
 import { ArrowUpRight, Sparkles, Check } from 'lucide-react';
 
 export const Services: React.FC = () => {
+  const [services, setServices] = useState<ServiceItem[]>(getStoredServices);
+
+  useEffect(() => {
+    fetchServicesFromSupabase().then((data) => {
+      setServices(data);
+    });
+
+    const handleUpdate = () => {
+      setServices(getStoredServices());
+    };
+    window.addEventListener('services_updated', handleUpdate);
+    return () => window.removeEventListener('services_updated', handleUpdate);
+  }, []);
+
   const handleServiceSelect = (serviceTitle: string) => {
     const contactSection = document.getElementById('contact');
     if (contactSection) {
@@ -37,13 +56,13 @@ export const Services: React.FC = () => {
           </p>
         </div>
 
-        {/* Services Grid (6 Cards) */}
+        {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {servicesData.map((service, index) => {
-            const IconComponent = service.icon;
+          {services.map((service, index) => {
+            const IconComponent = getServiceIcon(service.iconName);
             return (
               <motion.div
-                key={service.id}
+                key={service.id || index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -72,20 +91,22 @@ export const Services: React.FC = () => {
                   </p>
 
                   {/* Included Features Bullet Points */}
-                  <div className="space-y-2 pt-4 border-t border-[#E2E8F0] mb-6">
-                    {service.features.map((feature, fIdx) => (
-                      <div key={fIdx} className="flex items-center gap-2 text-xs text-[#475569] font-medium">
-                        <Check className="w-3.5 h-3.5 text-[#2563EB] shrink-0" />
-                        <span>{feature}</span>
-                      </div>
-                    ))}
-                  </div>
+                  {service.features && service.features.length > 0 && (
+                    <div className="space-y-2 pt-4 border-t border-[#E2E8F0] mb-6">
+                      {service.features.map((feature, fIdx) => (
+                        <div key={fIdx} className="flex items-center gap-2 text-xs text-[#475569] font-medium">
+                          <Check className="w-3.5 h-3.5 text-[#2563EB] shrink-0" />
+                          <span>{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Inquiry Action Button */}
                 <button
                   onClick={() => handleServiceSelect(service.title)}
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-white bg-[#2563EB] hover:bg-[#1D4ED8] transition-all duration-200 shadow-sm"
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-white bg-[#2563EB] hover:bg-[#1D4ED8] transition-all duration-200 shadow-sm cursor-pointer"
                 >
                   <span>Inquire About This</span>
                   <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -99,3 +120,4 @@ export const Services: React.FC = () => {
     </section>
   );
 };
+

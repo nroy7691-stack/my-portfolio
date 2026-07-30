@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { testimonialsData } from '../data/testimonialsData';
-import { Star, MessageSquareQuote, Info, Sparkles } from 'lucide-react';
+import { 
+  Testimonial, 
+  getStoredTestimonials, 
+  fetchTestimonialsFromSupabase 
+} from '../data/testimonialsData';
+import { Star, MessageSquareQuote, Info, Sparkles, User } from 'lucide-react';
 
 export const Testimonials: React.FC = () => {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(getStoredTestimonials);
+
+  useEffect(() => {
+    fetchTestimonialsFromSupabase().then((data) => {
+      setTestimonials(data);
+    });
+
+    const handleUpdate = () => {
+      setTestimonials(getStoredTestimonials());
+    };
+    window.addEventListener('testimonials_updated', handleUpdate);
+    return () => window.removeEventListener('testimonials_updated', handleUpdate);
+  }, []);
+
+  const hasPlaceholders = testimonials.some(t => t.isPlaceholder);
+
   return (
     <section className="py-20 lg:py-28 bg-[#FFFFFF] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -23,20 +43,22 @@ export const Testimonials: React.FC = () => {
             Real feedback from business owners and partners.
           </p>
 
-          {/* Explicit Notice Label */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F8FBFF] border border-[#DBEAFE] text-[#475569] text-xs text-center max-w-xl mx-auto mt-2 shadow-sm">
-            <Info className="w-4 h-4 shrink-0 text-[#2563EB]" />
-            <span>
-              <strong className="text-[#0F172A]">Sample Placeholders:</strong> The reviews below are sample template placeholders. Replace them in <code className="text-[#2563EB] font-mono bg-[#EFF6FF] px-1 py-0.5 rounded border border-[#E2E8F0]">/src/data/testimonialsData.ts</code> with your actual client reviews.
-            </span>
-          </div>
+          {/* Explicit Notice Label for Placeholders */}
+          {hasPlaceholders && (
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F8FBFF] border border-[#DBEAFE] text-[#475569] text-xs text-center max-w-xl mx-auto mt-2 shadow-sm">
+              <Info className="w-4 h-4 shrink-0 text-[#2563EB]" />
+              <span>
+                <strong className="text-[#0F172A]">Sample Placeholders:</strong> Customize or replace these reviews anytime via the Admin Panel.
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Testimonials Cards Grid */}
         <div className="grid md:grid-cols-3 gap-8">
-          {testimonialsData.map((item, idx) => (
+          {testimonials.map((item, idx) => (
             <motion.div
-              key={item.id}
+              key={item.id || idx}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -47,28 +69,44 @@ export const Testimonials: React.FC = () => {
                 {/* Header Quote Icon & Rating */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-1">
-                    {[...Array(item.rating)].map((_, i) => (
+                    {[...Array(item.rating || 5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-500" />
                     ))}
                   </div>
                   <MessageSquareQuote className="w-6 h-6 text-slate-300 group-hover:text-[#2563EB] transition-colors" />
                 </div>
 
-                {/* Quote */}
+                {/* Quote / Review */}
                 <p className="text-sm text-[#475569] leading-relaxed italic mb-6">
                   "{item.quote}"
                 </p>
               </div>
 
               {/* Author details */}
-              <div className="pt-4 border-t border-[#E2E8F0] flex items-center justify-between">
-                <div>
-                  <h4 className="text-sm font-bold text-[#0F172A]">{item.clientName}</h4>
-                  <p className="text-xs text-[#475569]">{item.role} • {item.company}</p>
+              <div className="pt-4 border-t border-[#E2E8F0] flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  {/* Client Photo Avatar */}
+                  <div className="w-10 h-10 rounded-full bg-[#EFF6FF] border border-[#DBEAFE] overflow-hidden shrink-0 flex items-center justify-center text-[#2563EB] font-bold text-xs shadow-sm">
+                    {item.avatarUrl ? (
+                      <img src={item.avatarUrl} alt={item.clientName} className="w-full h-full object-cover" />
+                    ) : (
+                      <User className="w-5 h-5" />
+                    )}
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-bold text-[#0F172A] leading-tight">{item.clientName}</h4>
+                    <p className="text-xs text-[#475569]">
+                      {item.role}{item.company ? ` • ${item.company}` : ''}
+                    </p>
+                  </div>
                 </div>
-                <span className="text-[10px] font-mono font-semibold text-[#2563EB] bg-[#EFF6FF] px-2 py-0.5 rounded border border-[#DBEAFE]">
-                  {item.projectType}
-                </span>
+
+                {item.projectType && (
+                  <span className="text-[10px] font-mono font-semibold text-[#2563EB] bg-[#EFF6FF] px-2 py-0.5 rounded border border-[#DBEAFE] shrink-0">
+                    {item.projectType}
+                  </span>
+                )}
               </div>
             </motion.div>
           ))}
@@ -78,3 +116,4 @@ export const Testimonials: React.FC = () => {
     </section>
   );
 };
+

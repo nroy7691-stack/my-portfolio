@@ -101,3 +101,32 @@ export const portfolioProjects: Project[] = [
     featured: false
   }
 ];
+
+const PORTFOLIO_STORAGE_KEY = 'enjel_portfolio_projects';
+
+export function getStoredProjects(): Project[] {
+  try {
+    const saved = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+    }
+  } catch (err) {
+    console.error('Failed to parse portfolio projects from storage:', err);
+  }
+  return portfolioProjects;
+}
+
+export function saveStoredProjects(projects: Project[]): void {
+  try {
+    localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(projects));
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('portfolio_updated'));
+    }
+  } catch (err) {
+    console.error('Failed to save portfolio projects to storage:', err);
+  }
+}
+

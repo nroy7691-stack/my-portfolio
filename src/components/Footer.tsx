@@ -1,16 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { siteConfig } from '../config/siteConfig';
-import { ArrowUp, Instagram, Linkedin, Twitter, Github, Dribbble, ShieldCheck } from 'lucide-react';
+import { ArrowUp, Instagram, Linkedin, Twitter, Github, Dribbble, Youtube, Facebook, ShieldCheck } from 'lucide-react';
+import { 
+  WebsiteConfig, 
+  getLocalWebsiteConfig, 
+  getWebsiteConfig 
+} from '../lib/supabase';
 
 interface FooterProps {
   onOpenAdmin?: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
+  const [websiteConfig, setWebsiteConfig] = useState<WebsiteConfig>(getLocalWebsiteConfig);
+
+  useEffect(() => {
+    getWebsiteConfig().then((data) => {
+      setWebsiteConfig(data);
+    });
+
+    const handleUpdate = () => {
+      setWebsiteConfig(getLocalWebsiteConfig());
+    };
+    window.addEventListener('website_config_updated', handleUpdate);
+    return () => window.removeEventListener('website_config_updated', handleUpdate);
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
 
   const footerLinks = [
     { label: 'Home', href: '#home' },
@@ -38,28 +56,36 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
           {/* Brand Column */}
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-[#2563EB] flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-600/30">
-                E
-              </div>
+              {websiteConfig.logo_image_url ? (
+                <img 
+                  src={websiteConfig.logo_image_url} 
+                  alt={websiteConfig.website_name}
+                  className="w-9 h-9 object-contain rounded-xl shadow-md"
+                />
+              ) : (
+                <div className="w-9 h-9 rounded-xl bg-[#2563EB] flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-600/30">
+                  {websiteConfig.logo_initial || 'E'}
+                </div>
+              )}
               <div className="flex flex-col">
                 <span className="text-lg font-bold tracking-tight text-white">
-                  {siteConfig.logoText}
+                  {websiteConfig.logo_text || siteConfig.logoText}
                 </span>
                 <span className="text-[10px] uppercase tracking-widest text-[#CBD5E1] font-semibold">
-                  {siteConfig.brandName}
+                  {websiteConfig.logo_subtext || siteConfig.brandName}
                 </span>
               </div>
             </div>
 
             <p className="text-sm text-[#CBD5E1] max-w-sm leading-relaxed">
-              Professional websites designed to help businesses grow online.
+              {websiteConfig.footer_text || 'Professional websites designed to help businesses grow online.'}
             </p>
 
-            {/* Social Links Placeholders */}
+            {/* Social Links */}
             <div className="flex items-center space-x-3 pt-2">
-              {siteConfig.socialLinks.instagram && (
+              {websiteConfig.social_links.instagram && (
                 <a 
-                  href={siteConfig.socialLinks.instagram} 
+                  href={websiteConfig.social_links.instagram} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-9 h-9 rounded-lg bg-[#1E293B] border border-slate-700 flex items-center justify-center text-[#CBD5E1] hover:text-white hover:border-[#2563EB] transition-colors"
@@ -68,9 +94,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
                   <Instagram className="w-4 h-4" />
                 </a>
               )}
-              {siteConfig.socialLinks.linkedin && (
+              {websiteConfig.social_links.linkedin && (
                 <a 
-                  href={siteConfig.socialLinks.linkedin} 
+                  href={websiteConfig.social_links.linkedin} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-9 h-9 rounded-lg bg-[#1E293B] border border-slate-700 flex items-center justify-center text-[#CBD5E1] hover:text-white hover:border-[#2563EB] transition-colors"
@@ -79,9 +105,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
                   <Linkedin className="w-4 h-4" />
                 </a>
               )}
-              {siteConfig.socialLinks.twitter && (
+              {websiteConfig.social_links.twitter && (
                 <a 
-                  href={siteConfig.socialLinks.twitter} 
+                  href={websiteConfig.social_links.twitter} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-9 h-9 rounded-lg bg-[#1E293B] border border-slate-700 flex items-center justify-center text-[#CBD5E1] hover:text-white hover:border-[#2563EB] transition-colors"
@@ -90,9 +116,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
                   <Twitter className="w-4 h-4" />
                 </a>
               )}
-              {siteConfig.socialLinks.github && (
+              {websiteConfig.social_links.github && (
                 <a 
-                  href={siteConfig.socialLinks.github} 
+                  href={websiteConfig.social_links.github} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-9 h-9 rounded-lg bg-[#1E293B] border border-slate-700 flex items-center justify-center text-[#CBD5E1] hover:text-white hover:border-[#2563EB] transition-colors"
@@ -101,9 +127,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
                   <Github className="w-4 h-4" />
                 </a>
               )}
-              {siteConfig.socialLinks.dribbble && (
+              {websiteConfig.social_links.dribbble && (
                 <a 
-                  href={siteConfig.socialLinks.dribbble} 
+                  href={websiteConfig.social_links.dribbble} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-9 h-9 rounded-lg bg-[#1E293B] border border-slate-700 flex items-center justify-center text-[#CBD5E1] hover:text-white hover:border-[#2563EB] transition-colors"
@@ -155,13 +181,13 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
 
         {/* Bottom Bar & Scroll To Top */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#CBD5E1] font-medium">
-          <p>© 2026 ENJEL WEB DESIGN. All rights reserved.</p>
+          <p>{websiteConfig.copyright_text || `© 2026 ${websiteConfig.website_name || 'ENJEL WEB DESIGN'}. All rights reserved.`}</p>
 
           <div className="flex items-center gap-3">
             {onOpenAdmin && (
               <button
                 onClick={onOpenAdmin}
-                className="p-2.5 rounded-xl bg-[#1E293B] border border-slate-700 text-[#60A5FA] hover:text-white hover:border-[#2563EB] transition-colors flex items-center gap-1.5 font-semibold"
+                className="p-2.5 rounded-xl bg-[#1E293B] border border-slate-700 text-[#60A5FA] hover:text-white hover:border-[#2563EB] transition-colors flex items-center gap-1.5 font-semibold cursor-pointer"
               >
                 <ShieldCheck className="w-3.5 h-3.5" />
                 <span>Admin Dashboard</span>
@@ -170,7 +196,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
 
             <button
               onClick={scrollToTop}
-              className="p-2.5 rounded-xl bg-[#1E293B] border border-slate-700 text-[#CBD5E1] hover:text-white hover:border-[#2563EB] transition-colors flex items-center gap-1.5 font-semibold"
+              className="p-2.5 rounded-xl bg-[#1E293B] border border-slate-700 text-[#CBD5E1] hover:text-white hover:border-[#2563EB] transition-colors flex items-center gap-1.5 font-semibold cursor-pointer"
               aria-label="Scroll to top"
             >
               <span>Back to top</span>
@@ -178,7 +204,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
             </button>
           </div>
         </div>
-
       </div>
     </footer>
   );

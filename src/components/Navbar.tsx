@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowUpRight, ShieldCheck } from 'lucide-react';
+import { Menu, X, ArrowUpRight, ShieldCheck, MessageSquareCode } from 'lucide-react';
 import { siteConfig } from '../config/siteConfig';
+import { 
+  WebsiteConfig, 
+  getLocalWebsiteConfig, 
+  getWebsiteConfig 
+} from '../lib/supabase';
 
 interface NavItem {
   label: string;
@@ -22,9 +27,22 @@ const navItems: NavItem[] = [
 
 export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmin }) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [websiteConfig, setWebsiteConfig] = useState<WebsiteConfig>(getLocalWebsiteConfig);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+
+  useEffect(() => {
+    getWebsiteConfig().then((data) => {
+      setWebsiteConfig(data);
+    });
+
+    const handleUpdate = () => {
+      setWebsiteConfig(getLocalWebsiteConfig());
+    };
+    window.addEventListener('website_config_updated', handleUpdate);
+    return () => window.removeEventListener('website_config_updated', handleUpdate);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,15 +100,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmin }) => {
             onClick={(e) => handleNavClick(e, '#home')}
             className="group flex items-center gap-2.5 text-left focus:outline-none"
           >
-            <div className="w-9 h-9 rounded-xl bg-[#2563EB] flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-600/20 group-hover:scale-105 transition-transform">
-              E
-            </div>
+            {websiteConfig.logo_image_url ? (
+              <img 
+                src={websiteConfig.logo_image_url} 
+                alt={websiteConfig.website_name}
+                className="w-9 h-9 object-contain rounded-xl shadow-sm group-hover:scale-105 transition-transform"
+              />
+            ) : (
+              <div className="w-9 h-9 rounded-xl bg-[#2563EB] flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-600/20 group-hover:scale-105 transition-transform">
+                {websiteConfig.logo_initial || 'E'}
+              </div>
+            )}
             <div className="flex flex-col">
               <span className="text-base sm:text-lg font-bold tracking-tight text-[#0F172A] group-hover:text-[#2563EB] transition-colors">
-                {siteConfig.logoText}
+                {websiteConfig.logo_text || siteConfig.logoText}
               </span>
               <span className="text-[10px] uppercase tracking-widest text-[#475569] font-semibold">
-                {siteConfig.brandName}
+                {websiteConfig.logo_subtext || siteConfig.brandName}
               </span>
             </div>
           </a>

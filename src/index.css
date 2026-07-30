@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+:root {
+  --color-primary: #2563EB;
+  --color-secondary: #0F172A;
+  --color-bg: #FFFFFF;
+  --color-card: #FFFFFF;
+  --color-button: #2563EB;
+  --font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -7,8 +16,31 @@
   }
   
   body {
-    @apply bg-[#FFFFFF] text-[#0F172A] font-sans antialiased selection:bg-[#2563EB] selection:text-white;
+    background-color: var(--color-bg);
+    color: var(--color-secondary);
+    font-family: var(--font-family);
+    @apply antialiased selection:bg-[#2563EB] selection:text-white;
   }
+}
+
+.bg-theme-button {
+  background-color: var(--color-button, #2563EB) !important;
+}
+
+.bg-theme-primary {
+  background-color: var(--color-primary, #2563EB) !important;
+}
+
+.text-theme-primary {
+  color: var(--color-primary, #2563EB) !important;
+}
+
+.text-theme-secondary {
+  color: var(--color-secondary, #0F172A) !important;
+}
+
+.bg-theme-card {
+  background-color: var(--color-card, #FFFFFF) !important;
 }
 
 /* Custom Scrollbar */
@@ -26,5 +58,5 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2563eb;
+  background: var(--color-primary, #2563eb);
 }

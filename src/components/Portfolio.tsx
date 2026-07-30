@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { portfolioProjects, portfolioCategories, ProjectCategory } from '../data/portfolioData';
+import { portfolioCategories, ProjectCategory, getStoredProjects, Project } from '../data/portfolioData';
 import { ProjectCard } from './ProjectCard';
-import { Sparkles, Code2, FolderGit2 } from 'lucide-react';
+import { Sparkles, FolderGit2 } from 'lucide-react';
 
 export const Portfolio: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<ProjectCategory>('All');
+  const [projects, setProjects] = useState<Project[]>(getStoredProjects);
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      setProjects(getStoredProjects());
+    };
+    window.addEventListener('portfolio_updated', handleUpdate);
+    return () => window.removeEventListener('portfolio_updated', handleUpdate);
+  }, []);
 
   const filteredProjects = selectedCategory === 'All' 
-    ? portfolioProjects 
-    : portfolioProjects.filter(p => p.category === selectedCategory);
+    ? projects 
+    : projects.filter(p => p.category === selectedCategory);
+
 
   return (
     <section id="portfolio" className="py-20 lg:py-28 bg-[#F8FAFC] relative border-t border-b border-[#E2E8F0]">

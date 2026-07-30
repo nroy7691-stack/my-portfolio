@@ -1,18 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { 
   ArrowRight, 
   Smartphone, 
   Sparkles, 
   Zap, 
-  Layout
+  Layout,
+  ExternalLink
 } from 'lucide-react';
+import { getHeroConfig, getLocalHeroConfig, HeroConfig } from '../lib/supabase';
 
 export const Hero: React.FC = () => {
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+  const [heroConfig, setHeroConfig] = useState<HeroConfig>(getLocalHeroConfig);
+
+  useEffect(() => {
+    getHeroConfig().then((data) => {
+      setHeroConfig(data);
+    });
+
+    const handleUpdate = () => {
+      setHeroConfig(getLocalHeroConfig());
+    };
+    window.addEventListener('hero_config_updated', handleUpdate);
+    return () => window.removeEventListener('hero_config_updated', handleUpdate);
+  }, []);
+
+  const handleLinkClick = (link: string) => {
+    if (!link) return;
+    if (link.startsWith('#')) {
+      const id = link.replace('#', '');
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else if (link.startsWith('http://') || link.startsWith('https://')) {
+      window.open(link, '_blank', 'noopener,noreferrer');
+    } else {
+      const el = document.getElementById(link);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -33,16 +60,18 @@ export const Hero: React.FC = () => {
         <div className="max-w-4xl mx-auto text-center space-y-6">
           
           {/* Top Pill Badge */}
-          <motion.div 
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EFF6FF] border border-[#DBEAFE] text-[#2563EB] text-xs sm:text-sm font-semibold shadow-sm"
-          >
-            <span className="flex h-2 w-2 rounded-full bg-[#2563EB] animate-pulse"></span>
-            <Sparkles className="w-3.5 h-3.5 text-[#2563EB]" />
-            <span>Modern Web Design & Strategy</span>
-          </motion.div>
+          {heroConfig.badge_text && (
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EFF6FF] border border-[#DBEAFE] text-[#2563EB] text-xs sm:text-sm font-semibold shadow-sm"
+            >
+              <span className="flex h-2 w-2 rounded-full bg-[#2563EB] animate-pulse"></span>
+              <Sparkles className="w-3.5 h-3.5 text-[#2563EB]" />
+              <span>{heroConfig.badge_text}</span>
+            </motion.div>
+          )}
 
           {/* Main Headline */}
           <motion.h1 
@@ -51,7 +80,7 @@ export const Hero: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-[#0F172A] tracking-tight leading-[1.12]"
           >
-            Professional Websites That Help Your Business <span className="text-[#2563EB]">Grow</span>
+            {heroConfig.title}
           </motion.h1>
 
           {/* Subheadline */}
@@ -61,7 +90,7 @@ export const Hero: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-base sm:text-lg lg:text-xl text-[#475569] max-w-2xl mx-auto leading-relaxed font-normal"
           >
-            I design modern, responsive and conversion-focused websites that help businesses build trust, attract customers and grow online.
+            {heroConfig.subtitle}
           </motion.p>
 
           {/* Primary & Secondary CTAs */}
@@ -71,21 +100,50 @@ export const Hero: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2"
           >
-            <button
-              onClick={() => scrollToSection('portfolio')}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-base font-bold text-white bg-[#2563EB] hover:bg-[#1D4ED8] transition-all duration-200 shadow-md shadow-blue-600/20 hover:shadow-blue-600/35 hover:-translate-y-0.5 active:translate-y-0"
-            >
-              <span>View My Work</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            {heroConfig.primary_button_text && (
+              <button
+                onClick={() => handleLinkClick(heroConfig.primary_button_link || '#portfolio')}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-base font-bold text-white bg-[#2563EB] hover:bg-[#1D4ED8] transition-all duration-200 shadow-md shadow-blue-600/20 hover:shadow-blue-600/35 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+              >
+                <span>{heroConfig.primary_button_text}</span>
+                {heroConfig.primary_button_link?.startsWith('http') ? (
+                  <ExternalLink className="w-4 h-4" />
+                ) : (
+                  <ArrowRight className="w-4 h-4" />
+                )}
+              </button>
+            )}
 
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-base font-semibold text-[#2563EB] bg-[#FFFFFF] border border-[#2563EB] hover:bg-[#EFF6FF] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-sm"
-            >
-              <span>Let's Work Together</span>
-            </button>
+            {heroConfig.secondary_button_text && (
+              <button
+                onClick={() => handleLinkClick(heroConfig.secondary_button_link || '#contact')}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-base font-semibold text-[#2563EB] bg-[#FFFFFF] border border-[#2563EB] hover:bg-[#EFF6FF] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-sm cursor-pointer"
+              >
+                <span>{heroConfig.secondary_button_text}</span>
+              </button>
+            )}
           </motion.div>
+
+          {/* Optional Hero Image Display */}
+          {heroConfig.hero_image && (
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.35 }}
+              className="pt-6 max-w-4xl mx-auto"
+            >
+              <div className="rounded-2xl overflow-hidden border border-[#E2E8F0] bg-white shadow-2xl p-2 sm:p-3">
+                <img 
+                  src={heroConfig.hero_image} 
+                  alt={heroConfig.title} 
+                  className="w-full max-h-[460px] object-cover rounded-xl"
+                  onError={(e) => {
+                    (e.target as HTMLElement).style.display = 'none';
+                  }}
+                />
+              </div>
+            </motion.div>
+          )}
 
           {/* Trust Indicators */}
           <motion.div 

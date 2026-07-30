@@ -19,15 +19,33 @@ import {
   X,
   Code2,
   Lock,
-  Layers
+  Layers,
+  Map
 } from 'lucide-react';
 import { 
   saveCustomerSubmission, 
   getCustomerSubmissions, 
-  CustomerSubmission 
+  CustomerSubmission,
+  ContactConfig,
+  getLocalContactConfig,
+  getContactConfig
 } from '../lib/supabase';
 
 export const Contact: React.FC = () => {
+  const [contactConfig, setContactConfig] = useState<ContactConfig>(getLocalContactConfig);
+
+  useEffect(() => {
+    getContactConfig().then((data) => {
+      setContactConfig(data);
+    });
+
+    const handleUpdate = () => {
+      setContactConfig(getLocalContactConfig());
+    };
+    window.addEventListener('contact_config_updated', handleUpdate);
+    return () => window.removeEventListener('contact_config_updated', handleUpdate);
+  }, []);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -139,8 +157,8 @@ ${formData.message}
 
 I would like to discuss my project with you.`;
 
-    // Process WhatsApp number from siteConfig
-    let targetWhatsAppNumber = siteConfig.whatsappNumber;
+    // Process WhatsApp number from contactConfig or fallback siteConfig
+    let targetWhatsAppNumber = contactConfig.whatsapp_number || siteConfig.whatsappNumber;
     let cleanNumber = targetWhatsAppNumber.replace(/[^0-9]/g, '');
 
     if (!cleanNumber || targetWhatsAppNumber === 'YOUR_WHATSAPP_NUMBER') {
@@ -452,7 +470,7 @@ CREATE POLICY "Allow authenticated delete" ON public.submissions
               <div>
                 <h3 className="text-xl font-bold text-[#0F172A] mb-2">Direct Contact Info</h3>
                 <p className="text-xs text-[#475569] leading-relaxed">
-                  Reach out directly using any of the channels below. Details are configured centrally in <code className="text-[#2563EB] font-mono bg-[#EFF6FF] px-1 py-0.5 rounded border border-[#E2E8F0]">/src/config/siteConfig.ts</code>.
+                  Reach out directly using any of the channels below or start an instant chat.
                 </p>
               </div>
 
@@ -467,13 +485,13 @@ CREATE POLICY "Allow authenticated delete" ON public.submissions
                     <div>
                       <span className="text-[10px] font-mono uppercase text-[#475569] block">WhatsApp</span>
                       <span className="text-sm font-semibold text-[#0F172A]">
-                        {siteConfig.whatsappNumber}
+                        {contactConfig.whatsapp_number}
                       </span>
                     </div>
                   </div>
                   <button 
-                    onClick={() => handleCopy(siteConfig.whatsappNumber, 'whatsapp')}
-                    className="p-2 rounded-lg bg-[#FFFFFF] border border-[#E2E8F0] text-[#475569] hover:text-[#0F172A] hover:bg-[#F8FAFC] transition-colors text-xs shadow-sm"
+                    onClick={() => handleCopy(contactConfig.whatsapp_number, 'whatsapp')}
+                    className="p-2 rounded-lg bg-[#FFFFFF] border border-[#E2E8F0] text-[#475569] hover:text-[#0F172A] hover:bg-[#F8FAFC] transition-colors text-xs shadow-sm cursor-pointer"
                     title="Copy WhatsApp Number"
                   >
                     {copiedField === 'whatsapp' ? <Check className="w-4 h-4 text-[#2563EB]" /> : <Copy className="w-4 h-4" />}
@@ -489,13 +507,13 @@ CREATE POLICY "Allow authenticated delete" ON public.submissions
                     <div>
                       <span className="text-[10px] font-mono uppercase text-[#475569] block">Phone</span>
                       <span className="text-sm font-semibold text-[#0F172A]">
-                        {siteConfig.phone}
+                        {contactConfig.phone}
                       </span>
                     </div>
                   </div>
                   <button 
-                    onClick={() => handleCopy(siteConfig.phone, 'phone')}
-                    className="p-2 rounded-lg bg-[#FFFFFF] border border-[#E2E8F0] text-[#475569] hover:text-[#0F172A] hover:bg-[#F8FAFC] transition-colors text-xs shadow-sm"
+                    onClick={() => handleCopy(contactConfig.phone, 'phone')}
+                    className="p-2 rounded-lg bg-[#FFFFFF] border border-[#E2E8F0] text-[#475569] hover:text-[#0F172A] hover:bg-[#F8FAFC] transition-colors text-xs shadow-sm cursor-pointer"
                     title="Copy Phone Number"
                   >
                     {copiedField === 'phone' ? <Check className="w-4 h-4 text-[#2563EB]" /> : <Copy className="w-4 h-4" />}
@@ -511,13 +529,13 @@ CREATE POLICY "Allow authenticated delete" ON public.submissions
                     <div>
                       <span className="text-[10px] font-mono uppercase text-[#475569] block">Email</span>
                       <span className="text-sm font-semibold text-[#0F172A] truncate sm:max-w-none">
-                        {siteConfig.email}
+                        {contactConfig.email}
                       </span>
                     </div>
                   </div>
                   <button 
-                    onClick={() => handleCopy(siteConfig.email, 'email')}
-                    className="p-2 rounded-lg bg-[#FFFFFF] border border-[#E2E8F0] text-[#475569] hover:text-[#0F172A] hover:bg-[#F8FAFC] transition-colors text-xs shadow-sm"
+                    onClick={() => handleCopy(contactConfig.email, 'email')}
+                    className="p-2 rounded-lg bg-[#FFFFFF] border border-[#E2E8F0] text-[#475569] hover:text-[#0F172A] hover:bg-[#F8FAFC] transition-colors text-xs shadow-sm cursor-pointer"
                     title="Copy Email Address"
                   >
                     {copiedField === 'email' ? <Check className="w-4 h-4 text-[#2563EB]" /> : <Copy className="w-4 h-4" />}
@@ -526,10 +544,25 @@ CREATE POLICY "Allow authenticated delete" ON public.submissions
 
               </div>
 
-              {/* Working Hours / Location */}
-              <div className="pt-4 border-t border-[#E2E8F0] flex items-center gap-2 text-xs text-[#475569]">
-                <MapPin className="w-4 h-4 text-[#2563EB]" />
-                <span>{siteConfig.location}</span>
+              {/* Physical Address / Location & Google Map Link */}
+              <div className="pt-4 border-t border-[#E2E8F0] space-y-3">
+                <div className="flex items-center gap-2 text-xs text-[#475569]">
+                  <MapPin className="w-4 h-4 text-[#2563EB] shrink-0" />
+                  <span className="font-medium text-[#0F172A]">{contactConfig.address}</span>
+                </div>
+
+                {contactConfig.google_map_link && (
+                  <a
+                    href={contactConfig.google_map_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-[#EFF6FF] border border-[#DBEAFE] text-[#2563EB] hover:bg-[#2563EB] hover:text-white transition-all text-xs font-bold shadow-sm group"
+                  >
+                    <Map className="w-4 h-4" />
+                    <span>View Location on Google Maps</span>
+                    <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  </a>
+                )}
               </div>
 
             </div>

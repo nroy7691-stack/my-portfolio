@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
@@ -11,9 +11,27 @@ import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { AdminPanel } from './components/AdminPanel';
 import { ShieldCheck } from 'lucide-react';
+import { getThemeConfig, applyThemeConfig, getLocalThemeConfig } from './lib/supabase';
 
 export default function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+
+  useEffect(() => {
+    // Apply local stored theme immediately for zero flash
+    applyThemeConfig(getLocalThemeConfig());
+
+    // Fetch latest theme from Supabase
+    getThemeConfig().then((config) => {
+      applyThemeConfig(config);
+    });
+
+    const handleThemeUpdate = () => {
+      applyThemeConfig(getLocalThemeConfig());
+    };
+
+    window.addEventListener('theme_config_updated', handleThemeUpdate);
+    return () => window.removeEventListener('theme_config_updated', handleThemeUpdate);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#FFFFFF] text-[#0F172A] flex flex-col font-sans selection:bg-[#2563EB] selection:text-white relative">
