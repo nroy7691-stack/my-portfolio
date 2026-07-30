@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowUpRight, MessageSquareCode } from 'lucide-react';
+import { Menu, X, ArrowUpRight, ShieldCheck } from 'lucide-react';
 import { siteConfig } from '../config/siteConfig';
 
 interface NavItem {
   label: string;
   href: string;
+}
+
+interface NavbarProps {
+  onOpenAdmin?: () => void;
 }
 
 const navItems: NavItem[] = [
@@ -16,8 +20,9 @@ const navItems: NavItem[] = [
   { label: 'Contact', href: '#contact' },
 ];
 
-export const Navbar: React.FC = () => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmin }) => {
   const [isScrolled, setIsScrolled] = useState(false);
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
@@ -64,8 +69,8 @@ export const Navbar: React.FC = () => {
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-white/90 backdrop-blur-md border-b border-slate-200/80 py-3.5 shadow-md shadow-slate-900/5' 
-          : 'bg-transparent py-5'
+          ? 'bg-[#FFFFFF]/95 backdrop-blur-md border-b border-[#E2E8F0] py-3.5 shadow-sm' 
+          : 'bg-[#FFFFFF]/80 backdrop-blur-md border-b border-[#E2E8F0]/60 py-4'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,21 +82,21 @@ export const Navbar: React.FC = () => {
             onClick={(e) => handleNavClick(e, '#home')}
             className="group flex items-center gap-2.5 text-left focus:outline-none"
           >
-            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-600/20 group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-[#2563EB] flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-600/20 group-hover:scale-105 transition-transform">
               E
             </div>
             <div className="flex flex-col">
-              <span className="text-base sm:text-lg font-bold tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
+              <span className="text-base sm:text-lg font-bold tracking-tight text-[#0F172A] group-hover:text-[#2563EB] transition-colors">
                 {siteConfig.logoText}
               </span>
-              <span className="text-[10px] uppercase tracking-widest text-slate-500 font-medium">
+              <span className="text-[10px] uppercase tracking-widest text-[#475569] font-semibold">
                 {siteConfig.brandName}
               </span>
             </div>
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2 bg-slate-100/90 backdrop-blur-md px-4 py-1.5 rounded-full border border-slate-200/90 shadow-sm">
+          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2 bg-[#F8FAFC] backdrop-blur-md px-4 py-1.5 rounded-full border border-[#E2E8F0] shadow-sm">
             {navItems.map((item) => {
               const isActive = activeSection === item.href.substring(1);
               return (
@@ -101,8 +106,8 @@ export const Navbar: React.FC = () => {
                   onClick={(e) => handleNavClick(e, item.href)}
                   className={`px-3.5 py-1.5 text-sm font-medium rounded-full transition-all duration-200 ${
                     isActive 
-                      ? 'text-white bg-blue-600 font-semibold shadow-sm' 
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/70'
+                      ? 'text-white bg-[#2563EB] font-bold shadow-sm' 
+                      : 'text-[#0F172A] hover:text-[#2563EB] hover:bg-[#EFF6FF]'
                   }`}
                 >
                   {item.label}
@@ -111,24 +116,35 @@ export const Navbar: React.FC = () => {
             })}
           </nav>
 
-          {/* Desktop CTA Button */}
-          <div className="hidden md:flex items-center">
+          {/* Desktop CTA Button & Admin Trigger */}
+          <div className="hidden md:flex items-center gap-2.5">
+            {onOpenAdmin && (
+              <button
+                onClick={onOpenAdmin}
+                className="p-2.5 rounded-full bg-[#F8FAFC] border border-[#CBD5E1] text-[#334155] hover:text-[#2563EB] hover:border-[#2563EB] hover:bg-[#EFF6FF] transition-all duration-200"
+                title="Open Admin Dashboard"
+              >
+                <ShieldCheck className="w-4 h-4 text-[#2563EB]" />
+              </button>
+            )}
+
             <a
               href="#contact"
               onClick={(e) => handleNavClick(e, '#contact')}
-              className="group relative inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-full transition-all duration-200 shadow-md shadow-blue-600/20 hover:shadow-blue-600/35 hover:-translate-y-0.5 active:translate-y-0"
+              className="group relative inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] rounded-full transition-all duration-200 shadow-md shadow-blue-600/20 hover:shadow-blue-600/35 hover:-translate-y-0.5 active:translate-y-0"
             >
               <span>Let's Work Together</span>
               <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           </div>
 
+
           {/* Mobile Hamburger Button */}
           <div className="flex md:hidden items-center">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-200 transition-colors focus:outline-none"
+              className="p-2.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-[#0F172A] hover:text-[#2563EB] hover:bg-[#EFF6FF] transition-colors focus:outline-none"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -139,7 +155,7 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-xl border-b border-slate-200 px-4 pt-3 pb-6 space-y-3 mt-3 shadow-xl animate-in slide-in-from-top duration-200">
+        <div className="md:hidden bg-[#FFFFFF] backdrop-blur-xl border-b border-[#E2E8F0] px-4 pt-3 pb-6 space-y-3 mt-3 shadow-xl animate-in slide-in-from-top duration-200">
           <div className="flex flex-col space-y-1 pt-2">
             {navItems.map((item) => {
               const isActive = activeSection === item.href.substring(1);
@@ -150,8 +166,8 @@ export const Navbar: React.FC = () => {
                   onClick={(e) => handleNavClick(e, item.href)}
                   className={`px-4 py-3 rounded-xl text-base font-medium transition-colors ${
                     isActive 
-                      ? 'bg-blue-600 text-white font-semibold' 
-                      : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+                      ? 'bg-[#2563EB] text-white font-bold' 
+                      : 'text-[#0F172A] hover:bg-[#EFF6FF] hover:text-[#2563EB]'
                   }`}
                 >
                   {item.label}
@@ -159,11 +175,11 @@ export const Navbar: React.FC = () => {
               );
             })}
           </div>
-          <div className="pt-2 border-t border-slate-200">
+          <div className="pt-2 border-t border-[#E2E8F0]">
             <a
               href="#contact"
               onClick={(e) => handleNavClick(e, '#contact')}
-              className="w-full flex items-center justify-center gap-2 px-5 py-3 text-base font-semibold text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition-colors shadow-md shadow-blue-600/20"
+              className="w-full flex items-center justify-center gap-2 px-5 py-3 text-base font-semibold text-white bg-[#2563EB] rounded-xl hover:bg-[#1D4ED8] transition-colors shadow-md shadow-blue-600/20"
             >
               <MessageSquareCode className="w-5 h-5" />
               <span>Let's Work Together</span>

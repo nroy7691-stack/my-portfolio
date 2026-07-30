@@ -12,25 +12,25 @@ export const Portfolio: React.FC = () => {
     : portfolioProjects.filter(p => p.category === selectedCategory);
 
   return (
-    <section id="portfolio" className="py-20 lg:py-28 bg-[#F7F7F7] relative border-t border-b border-slate-200/80">
+    <section id="portfolio" className="py-20 lg:py-28 bg-[#F8FAFC] relative border-t border-b border-[#E2E8F0]">
       
       {/* Background radial glow */}
-      <div className="absolute top-1/3 right-0 w-80 h-80 bg-blue-500/5 rounded-full blur-[140px] pointer-events-none"></div>
+      <div className="absolute top-1/3 right-0 w-80 h-80 bg-[#2563EB]/5 rounded-full blur-[140px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-900 text-xs font-semibold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EFF6FF] border border-[#DBEAFE] text-[#2563EB] text-xs font-semibold uppercase tracking-wider">
+            <Sparkles className="w-3.5 h-3.5 text-[#2563EB]" />
             <span>Portfolio</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#111111] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F172A] tracking-tight">
             Selected Projects
           </h2>
 
-          <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
+          <p className="text-base sm:text-lg text-[#475569] leading-relaxed">
             Here are some of the websites I have designed.
           </p>
         </div>
@@ -45,8 +45,8 @@ export const Portfolio: React.FC = () => {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 ${
                   isActive 
-                    ? 'bg-blue-600 text-white font-bold shadow-md shadow-blue-600/20' 
-                    : 'bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-900 border border-slate-200'
+                    ? 'bg-[#2563EB] text-white font-bold shadow-md shadow-blue-600/20' 
+                    : 'bg-[#FFFFFF] text-[#475569] hover:bg-[#EFF6FF] hover:text-[#2563EB] border border-[#E2E8F0]'
                 }`}
               >
                 {cat}
@@ -74,19 +74,19 @@ export const Portfolio: React.FC = () => {
         </motion.div>
 
         {/* Easy Edit Hint Box for Site Owner */}
-        <div className="mt-16 max-w-2xl mx-auto p-4 rounded-2xl bg-white border border-[#E5E7EB] hover:bg-[#F8FAFC] hover:border-[#2563EB] shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 text-center text-xs text-[#6B7280] flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="mt-16 max-w-2xl mx-auto p-4 rounded-2xl bg-[#FFFFFF] border border-[#E2E8F0] hover:bg-[#F8FAFC] hover:border-[#2563EB] shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 text-center text-xs text-[#475569] flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2 text-left">
-            <div className="p-2 rounded-xl bg-[#EFF6FF] border border-[#E5E7EB] text-[#2563EB] shrink-0">
+            <div className="p-2 rounded-xl bg-[#EFF6FF] border border-[#E2E8F0] text-[#2563EB] shrink-0">
               <FolderGit2 className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[#111827] font-semibold block">Need to add or edit portfolio projects?</span>
-              <span className="text-[#6B7280] text-[11px]">All project records are stored in <code className="text-[#2563EB] font-mono bg-[#EFF6FF] px-1 py-0.5 rounded border border-[#E5E7EB]">/src/data/portfolioData.ts</code></span>
+              <span className="text-[#0F172A] font-semibold block">Need to add or edit portfolio projects?</span>
+              <span className="text-[#475569] text-[11px]">All project records are stored in <code className="text-[#2563EB] font-mono bg-[#EFF6FF] px-1 py-0.5 rounded border border-[#E2E8F0]">/src/data/portfolioData.ts</code></span>
             </div>
           </div>
           <a
             href="#contact"
-            className="px-4 py-2 rounded-xl bg-[#2563EB] hover:bg-blue-700 text-white text-xs font-bold shrink-0 transition-colors shadow-sm"
+            className="px-4 py-2 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-bold shrink-0 transition-colors shadow-sm"
           >
             Request New Website
           </a>
