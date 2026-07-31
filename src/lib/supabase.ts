@@ -189,11 +189,11 @@ export const DEFAULT_HERO_CONFIG: HeroConfig = {
   id: 'default',
   badge_text: 'Modern Web Design & Strategy',
   title: 'Professional Websites That Help Your Business Grow',
-  subtitle: 'I design modern, responsive and conversion-focused websites that help businesses build trust, attract customers and grow online.',
-  primary_button_text: 'View My Work',
-  primary_button_link: '#portfolio',
-  secondary_button_text: "Let's Work Together",
-  secondary_button_link: '#contact',
+  subtitle: 'I design fast, modern, and professional websites that help businesses build trust, attract customers, and grow online.',
+  primary_button_text: 'Start Your Project',
+  primary_button_link: '#contact',
+  secondary_button_text: 'View My Work',
+  secondary_button_link: '#portfolio',
   hero_image: ''
 };
 

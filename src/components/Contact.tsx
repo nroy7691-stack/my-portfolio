@@ -131,13 +131,13 @@ export const Contact: React.FC = () => {
     if (dbResult.success) {
       setSupabaseStatus({
         saved: true,
-        message: 'Successfully stored customer data in Supabase database!'
+        message: 'Thank you! Your message has been sent successfully.'
       });
     } else {
       setSupabaseStatus({
         saved: false,
         error: true,
-        message: `Database notice: ${dbResult.error || 'Submission formatted and prepared.'}`
+        message: `Notice: ${dbResult.error || 'Submission formatted and prepared.'}`
       });
     }
 
@@ -234,58 +234,45 @@ CREATE POLICY "Allow authenticated delete" ON public.submissions
   };
 
   return (
-    <section id="contact" className="py-20 lg:py-28 bg-[#F8FAFC] relative border-t border-[#E2E8F0]">
+    <section id="contact" className="py-20 lg:py-28 bg-[#F8FAFC] relative border-t border-[#E2E8F0] overflow-hidden">
       
-      {/* Background radial highlight */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#2563EB]/5 rounded-full blur-[160px] pointer-events-none"></div>
+      {/* Background subtle glowing highlights */}
+      <div className="absolute top-1/4 -right-20 w-96 h-96 bg-[#2563EB]/5 rounded-full blur-[140px] pointer-events-none"></div>
+      <div className="absolute bottom-10 -left-20 w-80 h-80 bg-[#3B82F6]/5 rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EFF6FF] border border-[#DBEAFE] text-[#2563EB] text-xs font-semibold uppercase tracking-wider">
+        <div className="text-center max-w-3xl mx-auto space-y-4 mb-12 lg:mb-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] text-xs font-bold uppercase tracking-wider shadow-xs">
             <Sparkles className="w-3.5 h-3.5 text-[#2563EB]" />
             <span>Get In Touch</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F172A] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F172A] tracking-tight leading-tight">
             Let's Build Something Great Together
           </h2>
 
-          <p className="text-base sm:text-lg text-[#475569] leading-relaxed">
-            Fill out the form below. Your project details will be saved directly into our <strong className="text-[#2563EB]">Supabase Database</strong> and sent via WhatsApp for a fast response.
+          <p className="text-base sm:text-lg text-[#475569] leading-relaxed max-w-2xl mx-auto font-normal">
+            Fill out the form below to get in touch with us and receive a prompt response via WhatsApp.
           </p>
-
-          {/* Database Connection Pill */}
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#059669] text-xs font-semibold shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span>
-              <Database className="w-3.5 h-3.5 text-[#059669]" />
-              <span>Supabase DB Connected: <code className="font-mono text-[11px] text-[#047857]">vgtvzesvjtioyvzbijfn</code></span>
-            </div>
-
-            <button
-              onClick={handleOpenAdmin}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FFFFFF] border border-[#CBD5E1] hover:border-[#2563EB] text-[#334155] hover:text-[#2563EB] text-xs font-semibold shadow-sm transition-all duration-200"
-            >
-              <Eye className="w-3.5 h-3.5 text-[#2563EB]" />
-              <span>View Stored Inquiries ({submissionsList.length})</span>
-            </button>
-          </div>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-12 items-start">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           
           {/* Left Column: Contact Form */}
           <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="lg:col-span-7 rounded-2xl bg-[#FFFFFF] border border-[#E2E8F0] p-6 sm:p-8 hover:border-[#2563EB] shadow-sm hover:shadow-md transition-all duration-300"
+            className="group relative lg:col-span-7 rounded-2xl bg-[#FFFFFF] border border-[#E2E8F0] p-6 sm:p-8 lg:p-9 hover:border-[#2563EB]/60 shadow-sm hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300"
           >
+            {/* Top Accent Line on Hover */}
+            <div className="absolute top-0 left-8 right-8 h-1 rounded-t-full bg-transparent group-hover:bg-[#2563EB] transition-all duration-300"></div>
+
             {supabaseStatus && (
-              <div className={`mb-6 p-4 rounded-xl text-xs flex items-start gap-3 ${
+              <div className={`mb-6 p-4 rounded-xl text-xs flex items-start gap-3 shadow-2xs ${
                 supabaseStatus.saved 
                   ? 'bg-[#ECFDF5] border border-[#A7F3D0] text-[#065F46]' 
                   : 'bg-[#FEF2F2] border border-[#FECACA] text-[#991B1B]'
@@ -296,10 +283,10 @@ CREATE POLICY "Allow authenticated delete" ON public.submissions
                   <AlertCircle className="w-5 h-5 text-[#EF4444] shrink-0" />
                 )}
                 <div className="space-y-1">
-                  <p className="font-bold">{supabaseStatus.message}</p>
+                  <p className="font-bold text-sm">{supabaseStatus.message}</p>
                   {supabaseStatus.error && (
                     <p className="text-[11px] opacity-90">
-                      If table doesn't exist yet, click "Setup Table SQL" below to initialize your Supabase table schema.
+                      Notice: Submission formatted and prepared.
                     </p>
                   )}
                 </div>
@@ -310,25 +297,25 @@ CREATE POLICY "Allow authenticated delete" ON public.submissions
               
               {/* Name */}
               <div>
-                <label className="block text-xs font-semibold text-[#0F172A] uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-[#0F172A] uppercase tracking-wider mb-2">
                   Full Name <span className="text-[#2563EB]">*</span>
                 </label>
                 <input
                   type="text"
-                  placeholder="Enter your name"
+                  placeholder="Enter your full name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className={`w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border text-[#0F172A] placeholder-[#475569] text-sm focus:outline-none transition-colors ${
-                    errors.name ? 'border-red-500 focus:border-red-500' : 'border-[#E2E8F0] focus:border-[#2563EB]'
+                  className={`w-full px-4 py-3.5 rounded-xl bg-[#F8FAFC] border text-[#0F172A] placeholder-[#94A3B8] text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2563EB]/20 transition-all duration-200 shadow-2xs ${
+                    errors.name ? 'border-red-500 focus:border-red-500' : 'border-[#CBD5E1] focus:border-[#2563EB]'
                   }`}
                 />
-                {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
+                {errors.name && <p className="text-xs text-red-500 font-semibold mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.name}</p>}
               </div>
 
               {/* Email & Phone Grid */}
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-xs font-semibold text-[#0F172A] uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-bold text-[#0F172A] uppercase tracking-wider mb-2">
                     Email Address <span className="text-[#2563EB]">*</span>
                   </label>
                   <input
@@ -336,15 +323,15 @@ CREATE POLICY "Allow authenticated delete" ON public.submissions
                     placeholder="name@example.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className={`w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border text-[#0F172A] placeholder-[#475569] text-sm focus:outline-none transition-colors ${
-                      errors.email ? 'border-red-500 focus:border-red-500' : 'border-[#E2E8F0] focus:border-[#2563EB]'
+                    className={`w-full px-4 py-3.5 rounded-xl bg-[#F8FAFC] border text-[#0F172A] placeholder-[#94A3B8] text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2563EB]/20 transition-all duration-200 shadow-2xs ${
+                      errors.email ? 'border-red-500 focus:border-red-500' : 'border-[#CBD5E1] focus:border-[#2563EB]'
                     }`}
                   />
-                  {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
+                  {errors.email && <p className="text-xs text-red-500 font-semibold mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.email}</p>}
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#0F172A] uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-bold text-[#0F172A] uppercase tracking-wider mb-2">
                     Phone / WhatsApp <span className="text-[#2563EB]">*</span>
                   </label>
                   <input
@@ -352,26 +339,26 @@ CREATE POLICY "Allow authenticated delete" ON public.submissions
                     placeholder="+91 70980 90109"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className={`w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border text-[#0F172A] placeholder-[#475569] text-sm focus:outline-none transition-colors ${
-                      errors.phone ? 'border-red-500 focus:border-red-500' : 'border-[#E2E8F0] focus:border-[#2563EB]'
+                    className={`w-full px-4 py-3.5 rounded-xl bg-[#F8FAFC] border text-[#0F172A] placeholder-[#94A3B8] text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2563EB]/20 transition-all duration-200 shadow-2xs ${
+                      errors.phone ? 'border-red-500 focus:border-red-500' : 'border-[#CBD5E1] focus:border-[#2563EB]'
                     }`}
                   />
-                  {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
+                  {errors.phone && <p className="text-xs text-red-500 font-semibold mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.phone}</p>}
                 </div>
               </div>
 
               {/* Project Type */}
               <div>
-                <label className="block text-xs font-semibold text-[#0F172A] uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-[#0F172A] uppercase tracking-wider mb-2">
                   Project Type
                 </label>
                 <select
                   value={formData.projectType}
                   onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-[#0F172A] text-sm focus:outline-none focus:border-[#2563EB] transition-colors"
+                  className="w-full px-4 py-3.5 rounded-xl bg-[#F8FAFC] border border-[#CBD5E1] text-[#0F172A] text-sm focus:outline-none focus:bg-white focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all duration-200 shadow-2xs cursor-pointer"
                 >
                   {projectOptions.map((opt) => (
-                    <option key={opt} value={opt} className="bg-white text-[#0F172A]">
+                    <option key={opt} value={opt} className="bg-white text-[#0F172A] py-1">
                       {opt}
                     </option>
                   ))}
@@ -380,7 +367,7 @@ CREATE POLICY "Allow authenticated delete" ON public.submissions
 
               {/* Message */}
               <div>
-                <label className="block text-xs font-semibold text-[#0F172A] uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-[#0F172A] uppercase tracking-wider mb-2">
                   Project Details / Message <span className="text-[#2563EB]">*</span>
                 </label>
                 <textarea
@@ -388,110 +375,77 @@ CREATE POLICY "Allow authenticated delete" ON public.submissions
                   placeholder="Tell me about your business, website goals, timeline..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className={`w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border text-[#0F172A] placeholder-[#475569] text-sm focus:outline-none transition-colors ${
-                    errors.message ? 'border-red-500 focus:border-red-500' : 'border-[#E2E8F0] focus:border-[#2563EB]'
+                  className={`w-full px-4 py-3.5 rounded-xl bg-[#F8FAFC] border text-[#0F172A] placeholder-[#94A3B8] text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2563EB]/20 transition-all duration-200 shadow-2xs ${
+                    errors.message ? 'border-red-500 focus:border-red-500' : 'border-[#CBD5E1] focus:border-[#2563EB]'
                   }`}
                 />
-                {errors.message && <p className="text-xs text-red-500 mt-1">{errors.message}</p>}
+                {errors.message && <p className="text-xs text-red-500 font-semibold mt-1.5 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.message}</p>}
               </div>
 
               {/* Submit Button */}
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full inline-flex items-center justify-center gap-3 px-6 py-4 rounded-xl text-base font-bold text-white bg-[#2563EB] hover:bg-[#1D4ED8] transition-all duration-200 shadow-md shadow-blue-600/20 hover:shadow-blue-600/35 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70"
+                className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl text-base font-extrabold text-white bg-[#2563EB] hover:bg-[#1D4ED8] active:bg-[#1E40AF] transition-all duration-200 shadow-md shadow-blue-600/20 hover:shadow-lg hover:shadow-blue-600/30 hover:-translate-y-0.5 disabled:opacity-70 cursor-pointer"
               >
                 {isSubmitting ? (
                   <>
                     <RefreshCw className="w-5 h-5 animate-spin" />
-                    <span>Saving to Supabase & Preparing WhatsApp...</span>
+                    <span>Preparing WhatsApp...</span>
                   </>
                 ) : (
                   <>
                     <MessageSquare className="w-5 h-5 text-white fill-white" />
-                    <span>Save to DB & Send via WhatsApp</span>
+                    <span>Send Message via WhatsApp</span>
                   </>
                 )}
               </button>
-
-              <div className="flex items-center justify-between text-[11px] text-[#475569] font-mono pt-1">
-                <span>⚡ Real-time database save enabled</span>
-                <button
-                  type="button"
-                  onClick={() => setShowSqlGuide(!showSqlGuide)}
-                  className="text-[#2563EB] hover:underline inline-flex items-center gap-1"
-                >
-                  <Code2 className="w-3 h-3" />
-                  <span>{showSqlGuide ? 'Hide SQL Schema' : 'Setup Table SQL'}</span>
-                </button>
-              </div>
-
-              {/* SQL Setup Drawer */}
-              {showSqlGuide && (
-                <motion.div 
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  className="mt-3 p-4 rounded-xl bg-[#0F172A] text-[#F8FAFC] text-xs font-mono space-y-2 border border-[#334155]"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-[#60A5FA] font-bold">Supabase SQL Editor Schema:</span>
-                    <button
-                      type="button"
-                      onClick={handleCopySql}
-                      className="px-2 py-1 bg-[#1E293B] hover:bg-[#334155] rounded text-white flex items-center gap-1 text-[10px]"
-                    >
-                      {sqlCopied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                      <span>{sqlCopied ? 'Copied' : 'Copy SQL'}</span>
-                    </button>
-                  </div>
-                  <pre className="text-[10px] overflow-x-auto text-[#CBD5E1] p-2 bg-[#020617] rounded">
-                    {sqlCodeSnippet}
-                  </pre>
-                  <p className="text-[10px] text-[#94A3B8]">
-                    Paste this into your Supabase SQL Editor if the table doesn't exist yet.
-                  </p>
-                </motion.div>
-              )}
 
             </form>
           </motion.div>
 
           {/* Right Column: Contact Information Area */}
           <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
             className="lg:col-span-5 space-y-6"
           >
             {/* Info Box */}
-            <div className="rounded-2xl bg-[#FFFFFF] border border-[#E2E8F0] p-6 space-y-6 shadow-sm hover:shadow-md hover:border-[#2563EB] transition-all duration-300">
+            <div className="group relative rounded-2xl bg-[#FFFFFF] border border-[#E2E8F0] p-6 sm:p-8 space-y-6 shadow-sm hover:shadow-xl hover:shadow-blue-500/5 hover:border-[#2563EB]/60 transition-all duration-300">
               
+              {/* Top Accent Line on Hover */}
+              <div className="absolute top-0 left-8 right-8 h-1 rounded-t-full bg-transparent group-hover:bg-[#2563EB] transition-all duration-300"></div>
+
               <div>
-                <h3 className="text-xl font-bold text-[#0F172A] mb-2">Direct Contact Info</h3>
-                <p className="text-xs text-[#475569] leading-relaxed">
+                <h3 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] mb-2 tracking-tight">
+                  Direct Contact Info
+                </h3>
+                <p className="text-xs sm:text-sm text-[#475569] leading-relaxed font-normal">
                   Reach out directly using any of the channels below or start an instant chat.
                 </p>
               </div>
 
-              <div className="space-y-4 pt-2">
+              <div className="space-y-3.5 pt-1">
                 
                 {/* WhatsApp */}
-                <div className="p-4 rounded-xl bg-[#FFFFFF] border border-[#E2E8F0] hover:bg-[#F8FAFC] hover:border-[#2563EB] transition-all duration-300 flex items-center justify-between shadow-sm">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-[#EFF6FF] border border-[#DBEAFE] text-[#2563EB] flex items-center justify-center">
+                <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] hover:bg-[#FFFFFF] hover:border-[#2563EB]/70 hover:shadow-md transition-all duration-300 flex items-center justify-between gap-3 group/item">
+                  <div className="flex items-center gap-3.5 min-w-0">
+                    <div className="w-11 h-11 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] flex items-center justify-center shrink-0 group-hover/item:bg-[#2563EB] group-hover/item:text-white transition-colors">
                       <MessageSquare className="w-5 h-5" />
                     </div>
-                    <div>
-                      <span className="text-[10px] font-mono uppercase text-[#475569] block">WhatsApp</span>
-                      <span className="text-sm font-semibold text-[#0F172A]">
+                    <div className="min-w-0">
+                      <span className="text-[10px] font-mono font-bold uppercase text-[#64748B] block tracking-wide">WhatsApp</span>
+                      <span className="text-sm font-extrabold text-[#0F172A] truncate group-hover/item:text-[#2563EB] transition-colors">
                         {contactConfig.whatsapp_number}
                       </span>
                     </div>
                   </div>
                   <button 
+                    type="button"
                     onClick={() => handleCopy(contactConfig.whatsapp_number, 'whatsapp')}
-                    className="p-2 rounded-lg bg-[#FFFFFF] border border-[#E2E8F0] text-[#475569] hover:text-[#0F172A] hover:bg-[#F8FAFC] transition-colors text-xs shadow-sm cursor-pointer"
+                    className="p-2.5 rounded-lg bg-[#FFFFFF] border border-[#CBD5E1] text-[#475569] hover:text-[#2563EB] hover:bg-[#EFF6FF] hover:border-[#BFDBFE] transition-all text-xs shadow-2xs active:scale-95 cursor-pointer shrink-0"
                     title="Copy WhatsApp Number"
                   >
                     {copiedField === 'whatsapp' ? <Check className="w-4 h-4 text-[#2563EB]" /> : <Copy className="w-4 h-4" />}
@@ -499,21 +453,22 @@ CREATE POLICY "Allow authenticated delete" ON public.submissions
                 </div>
 
                 {/* Phone */}
-                <div className="p-4 rounded-xl bg-[#FFFFFF] border border-[#E2E8F0] hover:bg-[#F8FAFC] hover:border-[#2563EB] transition-all duration-300 flex items-center justify-between shadow-sm">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-[#EFF6FF] border border-[#DBEAFE] text-[#2563EB] flex items-center justify-center">
+                <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] hover:bg-[#FFFFFF] hover:border-[#2563EB]/70 hover:shadow-md transition-all duration-300 flex items-center justify-between gap-3 group/item">
+                  <div className="flex items-center gap-3.5 min-w-0">
+                    <div className="w-11 h-11 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] flex items-center justify-center shrink-0 group-hover/item:bg-[#2563EB] group-hover/item:text-white transition-colors">
                       <Phone className="w-5 h-5" />
                     </div>
-                    <div>
-                      <span className="text-[10px] font-mono uppercase text-[#475569] block">Phone</span>
-                      <span className="text-sm font-semibold text-[#0F172A]">
+                    <div className="min-w-0">
+                      <span className="text-[10px] font-mono font-bold uppercase text-[#64748B] block tracking-wide">Phone</span>
+                      <span className="text-sm font-extrabold text-[#0F172A] truncate group-hover/item:text-[#2563EB] transition-colors">
                         {contactConfig.phone}
                       </span>
                     </div>
                   </div>
                   <button 
+                    type="button"
                     onClick={() => handleCopy(contactConfig.phone, 'phone')}
-                    className="p-2 rounded-lg bg-[#FFFFFF] border border-[#E2E8F0] text-[#475569] hover:text-[#0F172A] hover:bg-[#F8FAFC] transition-colors text-xs shadow-sm cursor-pointer"
+                    className="p-2.5 rounded-lg bg-[#FFFFFF] border border-[#CBD5E1] text-[#475569] hover:text-[#2563EB] hover:bg-[#EFF6FF] hover:border-[#BFDBFE] transition-all text-xs shadow-2xs active:scale-95 cursor-pointer shrink-0"
                     title="Copy Phone Number"
                   >
                     {copiedField === 'phone' ? <Check className="w-4 h-4 text-[#2563EB]" /> : <Copy className="w-4 h-4" />}
@@ -521,21 +476,22 @@ CREATE POLICY "Allow authenticated delete" ON public.submissions
                 </div>
 
                 {/* Email */}
-                <div className="p-4 rounded-xl bg-[#FFFFFF] border border-[#E2E8F0] hover:bg-[#F8FAFC] hover:border-[#2563EB] transition-all duration-300 flex items-center justify-between shadow-sm">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-[#EFF6FF] border border-[#DBEAFE] text-[#2563EB] flex items-center justify-center">
+                <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] hover:bg-[#FFFFFF] hover:border-[#2563EB]/70 hover:shadow-md transition-all duration-300 flex items-center justify-between gap-3 group/item">
+                  <div className="flex items-center gap-3.5 min-w-0">
+                    <div className="w-11 h-11 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] flex items-center justify-center shrink-0 group-hover/item:bg-[#2563EB] group-hover/item:text-white transition-colors">
                       <Mail className="w-5 h-5" />
                     </div>
-                    <div>
-                      <span className="text-[10px] font-mono uppercase text-[#475569] block">Email</span>
-                      <span className="text-sm font-semibold text-[#0F172A] truncate sm:max-w-none">
+                    <div className="min-w-0">
+                      <span className="text-[10px] font-mono font-bold uppercase text-[#64748B] block tracking-wide">Email</span>
+                      <span className="text-sm font-extrabold text-[#0F172A] truncate group-hover/item:text-[#2563EB] transition-colors">
                         {contactConfig.email}
                       </span>
                     </div>
                   </div>
                   <button 
+                    type="button"
                     onClick={() => handleCopy(contactConfig.email, 'email')}
-                    className="p-2 rounded-lg bg-[#FFFFFF] border border-[#E2E8F0] text-[#475569] hover:text-[#0F172A] hover:bg-[#F8FAFC] transition-colors text-xs shadow-sm cursor-pointer"
+                    className="p-2.5 rounded-lg bg-[#FFFFFF] border border-[#CBD5E1] text-[#475569] hover:text-[#2563EB] hover:bg-[#EFF6FF] hover:border-[#BFDBFE] transition-all text-xs shadow-2xs active:scale-95 cursor-pointer shrink-0"
                     title="Copy Email Address"
                   >
                     {copiedField === 'email' ? <Check className="w-4 h-4 text-[#2563EB]" /> : <Copy className="w-4 h-4" />}
@@ -545,10 +501,12 @@ CREATE POLICY "Allow authenticated delete" ON public.submissions
               </div>
 
               {/* Physical Address / Location & Google Map Link */}
-              <div className="pt-4 border-t border-[#E2E8F0] space-y-3">
-                <div className="flex items-center gap-2 text-xs text-[#475569]">
-                  <MapPin className="w-4 h-4 text-[#2563EB] shrink-0" />
-                  <span className="font-medium text-[#0F172A]">{contactConfig.address}</span>
+              <div className="pt-4 border-t border-[#F1F5F9] space-y-3.5">
+                <div className="flex items-center gap-2.5 text-xs text-[#475569]">
+                  <div className="w-7 h-7 rounded-lg bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] flex items-center justify-center shrink-0">
+                    <MapPin className="w-3.5 h-3.5 text-[#2563EB]" />
+                  </div>
+                  <span className="font-bold text-[#0F172A]">{contactConfig.address}</span>
                 </div>
 
                 {contactConfig.google_map_link && (
@@ -556,23 +514,15 @@ CREATE POLICY "Allow authenticated delete" ON public.submissions
                     href={contactConfig.google_map_link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-[#EFF6FF] border border-[#DBEAFE] text-[#2563EB] hover:bg-[#2563EB] hover:text-white transition-all text-xs font-bold shadow-sm group"
+                    className="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] hover:bg-[#2563EB] hover:text-white transition-all text-xs font-bold shadow-xs hover:shadow-md group/btn cursor-pointer"
                   >
                     <Map className="w-4 h-4" />
                     <span>View Location on Google Maps</span>
-                    <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                    <ExternalLink className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
                   </a>
                 )}
               </div>
 
-            </div>
-
-            {/* Quick config notification card */}
-            <div className="p-4 rounded-xl bg-[#F8FBFF] border border-[#DBEAFE] hover:bg-[#FFFFFF] hover:border-[#2563EB] transition-all duration-300 text-xs text-[#475569] space-y-1 shadow-sm">
-              <span className="text-[#2563EB] font-semibold block">⚙️ Database Setup Active:</span>
-              <p>
-                Connected to project <code className="text-[#0F172A] font-mono bg-[#EFF6FF] px-1 py-0.5 rounded border border-[#DBEAFE]">vgtvzesvjtioyvzbijfn</code>. All customer entries are logged to Supabase.
-              </p>
             </div>
 
           </motion.div>

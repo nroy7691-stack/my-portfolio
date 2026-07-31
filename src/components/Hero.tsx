@@ -78,19 +78,19 @@ export const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-[#0F172A] tracking-tight leading-[1.12]"
+            className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-[#0F172A] tracking-tight leading-[1.15] sm:leading-[1.12]"
           >
-            {heroConfig.title}
+            {heroConfig.title || "Professional Websites That Help Your Business Grow"}
           </motion.h1>
 
-          {/* Subheadline */}
+          {/* Subheadline / Description */}
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-base sm:text-lg lg:text-xl text-[#475569] max-w-2xl mx-auto leading-relaxed font-normal"
+            className="text-base sm:text-lg lg:text-xl text-[#475569] max-w-2xl mx-auto leading-relaxed font-normal px-2 sm:px-0"
           >
-            {heroConfig.subtitle}
+            {heroConfig.subtitle || "I design fast, modern, and professional websites that help businesses build trust, attract customers, and grow online."}
           </motion.p>
 
           {/* Primary & Secondary CTAs */}
@@ -98,30 +98,49 @@ export const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 pt-2"
           >
-            {heroConfig.primary_button_text && (
-              <button
-                onClick={() => handleLinkClick(heroConfig.primary_button_link || '#portfolio')}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-base font-bold text-white bg-[#2563EB] hover:bg-[#1D4ED8] transition-all duration-200 shadow-md shadow-blue-600/20 hover:shadow-blue-600/35 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
-              >
-                <span>{heroConfig.primary_button_text}</span>
-                {heroConfig.primary_button_link?.startsWith('http') ? (
-                  <ExternalLink className="w-4 h-4" />
-                ) : (
-                  <ArrowRight className="w-4 h-4" />
-                )}
-              </button>
-            )}
+            <button
+              onClick={() => handleLinkClick(heroConfig.primary_button_link || '#contact')}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-base font-bold text-white bg-[#2563EB] hover:bg-[#1D4ED8] transition-all duration-200 shadow-md shadow-blue-600/20 hover:shadow-blue-600/35 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+            >
+              <span>{heroConfig.primary_button_text || "Start Your Project"}</span>
+              {heroConfig.primary_button_link?.startsWith('http') ? (
+                <ExternalLink className="w-4 h-4" />
+              ) : (
+                <ArrowRight className="w-4 h-4" />
+              )}
+            </button>
 
-            {heroConfig.secondary_button_text && (
-              <button
-                onClick={() => handleLinkClick(heroConfig.secondary_button_link || '#contact')}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-base font-semibold text-[#2563EB] bg-[#FFFFFF] border border-[#2563EB] hover:bg-[#EFF6FF] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-sm cursor-pointer"
-              >
-                <span>{heroConfig.secondary_button_text}</span>
-              </button>
-            )}
+            <button
+              onClick={() => handleLinkClick(heroConfig.secondary_button_link || '#portfolio')}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-base font-semibold text-[#2563EB] bg-[#FFFFFF] border border-[#2563EB] hover:bg-[#EFF6FF] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-sm cursor-pointer"
+            >
+              <span>{heroConfig.secondary_button_text || "View My Work"}</span>
+            </button>
+          </motion.div>
+
+          {/* Tagline below buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="pt-1 text-xs sm:text-sm font-semibold text-[#64748B] tracking-wide flex items-center justify-center gap-2 flex-wrap"
+          >
+            <span className="inline-flex items-center gap-1.5">
+              <Layout className="w-3.5 h-3.5 text-[#2563EB]" />
+              Modern Design
+            </span>
+            <span className="text-[#CBD5E1] hidden sm:inline">•</span>
+            <span className="inline-flex items-center gap-1.5">
+              <Smartphone className="w-3.5 h-3.5 text-[#2563EB]" />
+              Mobile Friendly
+            </span>
+            <span className="text-[#CBD5E1] hidden sm:inline">•</span>
+            <span className="inline-flex items-center gap-1.5">
+              <Zap className="w-3.5 h-3.5 text-[#2563EB]" />
+              Fast & Reliable
+            </span>
           </motion.div>
 
           {/* Optional Hero Image Display */}
@@ -145,34 +164,7 @@ export const Hero: React.FC = () => {
             </motion.div>
           )}
 
-          {/* Trust Indicators */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="pt-8 border-t border-[#E2E8F0] grid grid-cols-3 gap-3 sm:gap-6 max-w-2xl mx-auto mt-6"
-          >
-            <div className="flex items-center justify-center gap-2 text-[#475569] text-xs sm:text-sm font-medium">
-              <div className="p-1.5 rounded-lg bg-[#EFF6FF] text-[#2563EB] shrink-0 border border-[#DBEAFE]">
-                <Layout className="w-4 h-4" />
-              </div>
-              <span>Modern Design</span>
-            </div>
 
-            <div className="flex items-center justify-center gap-2 text-[#475569] text-xs sm:text-sm font-medium">
-              <div className="p-1.5 rounded-lg bg-[#EFF6FF] text-[#2563EB] shrink-0 border border-[#DBEAFE]">
-                <Smartphone className="w-4 h-4" />
-              </div>
-              <span>Mobile Responsive</span>
-            </div>
-
-            <div className="flex items-center justify-center gap-2 text-[#475569] text-xs sm:text-sm font-medium">
-              <div className="p-1.5 rounded-lg bg-[#EFF6FF] text-[#2563EB] shrink-0 border border-[#DBEAFE]">
-                <Zap className="w-4 h-4" />
-              </div>
-              <span>Fast & Professional</span>
-            </div>
-          </motion.div>
 
         </div>
       </div>
