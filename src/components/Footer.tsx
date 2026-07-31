@@ -184,16 +184,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
           <p>{websiteConfig.copyright_text || `© 2026 ${websiteConfig.website_name || 'ENJEL WEB DESIGN'}. All rights reserved.`}</p>
 
           <div className="flex items-center gap-3">
-            {onOpenAdmin && (
-              <button
-                onClick={onOpenAdmin}
-                className="p-2.5 rounded-xl bg-[#1E293B] border border-slate-700 text-[#60A5FA] hover:text-white hover:border-[#2563EB] transition-colors flex items-center gap-1.5 font-semibold cursor-pointer"
-              >
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Admin Dashboard</span>
-              </button>
-            )}
-
             <button
               onClick={scrollToTop}
               className="p-2.5 rounded-xl bg-[#1E293B] border border-slate-700 text-[#CBD5E1] hover:text-white hover:border-[#2563EB] transition-colors flex items-center gap-1.5 font-semibold cursor-pointer"

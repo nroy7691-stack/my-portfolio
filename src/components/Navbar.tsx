@@ -148,7 +148,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmin }) => {
               <button
                 onClick={onOpenAdmin}
                 className="p-2.5 rounded-full bg-[#F8FAFC] border border-[#CBD5E1] text-[#334155] hover:text-[#2563EB] hover:border-[#2563EB] hover:bg-[#EFF6FF] transition-all duration-200"
-                title="Open Admin Dashboard"
+                title="Open Admin Panel"
               >
                 <ShieldCheck className="w-4 h-4 text-[#2563EB]" />
               </button>

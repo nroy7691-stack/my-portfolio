@@ -56,7 +56,7 @@ export const AdminAuthView: React.FC<AdminAuthViewProps> = ({
           className="w-full py-3.5 px-6 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
         >
           <KeyRound className="w-4 h-4" />
-          <span>Unlock Admin Dashboard</span>
+          <span>Unlock Admin Panel</span>
         </button>
       </form>
 
