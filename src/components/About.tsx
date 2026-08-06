@@ -78,7 +78,7 @@ export const About: React.FC = () => {
                     <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-full bg-[#2563EB] flex items-center justify-center text-white shadow-md shadow-blue-600/25 mb-3">
                       <User className="w-9 h-9 sm:w-10 sm:h-10" />
                     </div>
-                    <span className="text-xs sm:text-sm font-extrabold text-[#0F172A]">ENJEL / NJs Web Designer</span>
+                    <span className="text-xs sm:text-sm font-extrabold text-[#0F172A]">MS Web Studio</span>
                     <span className="text-[11px] text-[#2563EB] font-mono mt-1 px-2.5 py-0.5 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] font-bold">
                       Web Designer & Strategist
                     </span>

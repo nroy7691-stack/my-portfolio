@@ -150,7 +150,7 @@ export const AdminWebsiteManager: React.FC<AdminWebsiteManagerProps> = ({ onNoti
                 <input
                   type="text"
                   required
-                  placeholder="e.g. ENJEL WEB DESIGN"
+                  placeholder="e.g. MS WEB STUDIO"
                   value={formData.website_name}
                   onChange={(e) => setFormData(prev => ({ ...prev, website_name: e.target.value }))}
                   className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-xs font-bold focus:outline-none focus:border-[#2563EB]"
@@ -164,7 +164,7 @@ export const AdminWebsiteManager: React.FC<AdminWebsiteManagerProps> = ({ onNoti
                 <input
                   type="text"
                   required
-                  placeholder="e.g. ENJEL WEB DESIGN"
+                  placeholder="e.g. MS WEB STUDIO"
                   value={formData.logo_text}
                   onChange={(e) => setFormData(prev => ({ ...prev, logo_text: e.target.value }))}
                   className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-xs font-bold focus:outline-none focus:border-[#2563EB]"
@@ -179,7 +179,7 @@ export const AdminWebsiteManager: React.FC<AdminWebsiteManagerProps> = ({ onNoti
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. NJs WEB DESIGN"
+                  placeholder="e.g. MS WEB STUDIO"
                   value={formData.logo_subtext}
                   onChange={(e) => setFormData(prev => ({ ...prev, logo_subtext: e.target.value }))}
                   className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-xs focus:outline-none focus:border-[#2563EB]"
@@ -193,7 +193,7 @@ export const AdminWebsiteManager: React.FC<AdminWebsiteManagerProps> = ({ onNoti
                 <input
                   type="text"
                   maxLength={3}
-                  placeholder="e.g. E or NJ"
+                  placeholder="e.g. M or MS"
                   value={formData.logo_initial}
                   onChange={(e) => setFormData(prev => ({ ...prev, logo_initial: e.target.value.toUpperCase() }))}
                   className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-xs font-mono font-bold focus:outline-none focus:border-[#2563EB]"
@@ -257,7 +257,7 @@ export const AdminWebsiteManager: React.FC<AdminWebsiteManagerProps> = ({ onNoti
               </label>
               <input
                 type="text"
-                placeholder="e.g. © 2026 ENJEL WEB DESIGN. All rights reserved."
+                placeholder="e.g. © 2026 MS WEB STUDIO. All rights reserved."
                 value={formData.copyright_text}
                 onChange={(e) => setFormData(prev => ({ ...prev, copyright_text: e.target.value }))}
                 className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-xs focus:outline-none focus:border-[#2563EB]"
@@ -381,7 +381,7 @@ export const AdminWebsiteManager: React.FC<AdminWebsiteManagerProps> = ({ onNoti
                 />
               ) : (
                 <div className="w-9 h-9 rounded-xl bg-[#2563EB] flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-600/20">
-                  {formData.logo_initial || 'E'}
+                  {formData.logo_initial || 'M'}
                 </div>
               )}
 
@@ -411,7 +411,7 @@ export const AdminWebsiteManager: React.FC<AdminWebsiteManagerProps> = ({ onNoti
                 />
               ) : (
                 <div className="w-8 h-8 rounded-xl bg-[#2563EB] flex items-center justify-center text-white font-black text-xs shadow-md">
-                  {formData.logo_initial || 'E'}
+                  {formData.logo_initial || 'M'}
                 </div>
               )}
               <div className="flex flex-col">

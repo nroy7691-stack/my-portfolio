@@ -108,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmin }) => {
               />
             ) : (
               <div className="w-9 h-9 rounded-xl bg-[#2563EB] flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-600/20 group-hover:scale-105 transition-transform">
-                {websiteConfig.logo_initial || 'E'}
+                {websiteConfig.logo_initial || 'M'}
               </div>
             )}
             <div className="flex flex-col">

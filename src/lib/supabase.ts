@@ -706,32 +706,35 @@ export async function saveThemeConfig(config: ThemeConfig): Promise<{ success: b
 
 export const DEFAULT_WEBSITE_CONFIG: WebsiteConfig = {
   id: 'default',
-  website_name: 'ENJEL WEB DESIGN',
-  logo_text: 'ENJEL WEB DESIGN',
-  logo_subtext: 'NJs WEB DESIGN',
-  logo_initial: 'E',
+  website_name: 'MS WEB STUDIO',
+  logo_text: 'MS WEB STUDIO',
+  logo_subtext: 'MS WEB STUDIO',
+  logo_initial: 'M',
   logo_image_url: '',
   footer_text: 'Professional websites designed to help businesses grow online.',
-  copyright_text: '© 2026 ENJEL WEB DESIGN. All rights reserved.',
+  copyright_text: '© 2026 MS WEB STUDIO. All rights reserved.',
   social_links: {
-    instagram: 'https://instagram.com/enjelwebdesign',
-    linkedin: 'https://linkedin.com/company/enjelwebdesign',
-    twitter: 'https://twitter.com/enjelwebdesign',
-    github: 'https://github.com/enjelwebdesign',
-    dribbble: 'https://dribbble.com/enjelwebdesign',
+    instagram: 'https://instagram.com/mswebstudio',
+    linkedin: 'https://linkedin.com/company/mswebstudio',
+    twitter: 'https://twitter.com/mswebstudio',
+    github: 'https://github.com/mswebstudio',
+    dribbble: 'https://dribbble.com/mswebstudio',
     youtube: '',
     facebook: ''
   }
 };
 
-const WEBSITE_STORAGE_KEY = 'enjel_website_config';
+const WEBSITE_STORAGE_KEY = 'ms_website_config';
 
 export function getLocalWebsiteConfig(): WebsiteConfig {
   try {
-    const saved = localStorage.getItem(WEBSITE_STORAGE_KEY);
+    const saved = localStorage.getItem(WEBSITE_STORAGE_KEY) || localStorage.getItem('enjel_website_config');
     if (saved) {
       const parsed = JSON.parse(saved);
       if (parsed && (parsed.website_name || parsed.logo_text)) {
+        if (parsed.website_name?.includes('ENJEL') || parsed.logo_text?.includes('ENJEL')) {
+          return DEFAULT_WEBSITE_CONFIG;
+        }
         return {
           ...DEFAULT_WEBSITE_CONFIG,
           ...parsed,

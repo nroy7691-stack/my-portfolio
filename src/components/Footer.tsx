@@ -64,7 +64,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
                 />
               ) : (
                 <div className="w-9 h-9 rounded-xl bg-[#2563EB] flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-600/30">
-                  {websiteConfig.logo_initial || 'E'}
+                  {websiteConfig.logo_initial || 'M'}
                 </div>
               )}
               <div className="flex flex-col">
@@ -181,7 +181,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
 
         {/* Bottom Bar & Scroll To Top */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#CBD5E1] font-medium">
-          <p>{websiteConfig.copyright_text || `© 2026 ${websiteConfig.website_name || 'ENJEL WEB DESIGN'}. All rights reserved.`}</p>
+          <p>{websiteConfig.copyright_text || `© 2026 ${websiteConfig.website_name || 'MS WEB STUDIO'}. All rights reserved.`}</p>
 
           <div className="flex items-center gap-3">
             <button

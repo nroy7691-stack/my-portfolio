@@ -10,6 +10,7 @@ import { Testimonials } from './components/Testimonials';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { AdminPanel } from './components/AdminPanel';
+import { ScrollToTop } from './components/ScrollToTop';
 import { ShieldCheck } from 'lucide-react';
 import { getThemeConfig, applyThemeConfig, getLocalThemeConfig } from './lib/supabase';
 
@@ -52,6 +53,9 @@ export default function App() {
 
       {/* Site Footer */}
       <Footer onOpenAdmin={() => setIsAdminOpen(true)} />
+
+      {/* Floating Scroll To Top Button */}
+      <ScrollToTop />
 
       {/* Floating Admin Quick Access Badge */}
       <button

@@ -1,5 +1,5 @@
 /**
- * ENJEL WEB DESIGN / NJs WEB DESIGN
+ * MS WEB STUDIO
  * Site Configuration & Contact Settings
  * 
  * You can easily edit your business details, contact information, and WhatsApp number here.
@@ -25,8 +25,8 @@ export interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
   // Brand details
-  brandName: "NJs WEB DESIGN",
-  logoText: "ENJEL WEB DESIGN",
+  brandName: "MS WEB STUDIO",
+  logoText: "MS WEB STUDIO",
   tagline: "Professional Websites That Help Your Business Grow",
 
   // Contact Information
