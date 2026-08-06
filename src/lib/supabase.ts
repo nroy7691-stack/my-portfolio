@@ -710,7 +710,7 @@ export const DEFAULT_WEBSITE_CONFIG: WebsiteConfig = {
   logo_text: 'MS WEB STUDIO',
   logo_subtext: 'MS WEB STUDIO',
   logo_initial: 'M',
-  logo_image_url: '',
+  logo_image_url: '/logo.png',
   footer_text: 'Professional websites designed to help businesses grow online.',
   copyright_text: '© 2026 MS WEB STUDIO. All rights reserved.',
   social_links: {

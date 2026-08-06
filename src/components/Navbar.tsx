@@ -100,23 +100,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmin }) => {
             onClick={(e) => handleNavClick(e, '#home')}
             className="group flex items-center gap-2.5 text-left focus:outline-none"
           >
-            {websiteConfig.logo_image_url ? (
-              <img 
-                src={websiteConfig.logo_image_url} 
-                alt={websiteConfig.website_name}
-                className="w-9 h-9 object-contain rounded-xl shadow-sm group-hover:scale-105 transition-transform"
-              />
-            ) : (
-              <div className="w-9 h-9 rounded-xl bg-[#2563EB] flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-600/20 group-hover:scale-105 transition-transform">
-                {websiteConfig.logo_initial || 'M'}
-              </div>
-            )}
+            <img 
+              src={websiteConfig.logo_image_url || '/logo.png'} 
+              alt={websiteConfig.website_name || 'MS Web Studio'}
+              className="w-[32px] h-[32px] sm:w-[40px] sm:h-[40px] object-contain shrink-0 group-hover:scale-105 transition-transform"
+              referrerPolicy="no-referrer"
+            />
             <div className="flex flex-col">
               <span className="text-base sm:text-lg font-bold tracking-tight text-[#0F172A] group-hover:text-[#2563EB] transition-colors">
-                {websiteConfig.logo_text || siteConfig.logoText}
+                {websiteConfig.logo_text || siteConfig.logoText || 'MS WEB STUDIO'}
               </span>
               <span className="text-[10px] uppercase tracking-widest text-[#475569] font-semibold">
-                {websiteConfig.logo_subtext || siteConfig.brandName}
+                {websiteConfig.logo_subtext || siteConfig.brandName || 'MS WEB STUDIO'}
               </span>
             </div>
           </a>
