@@ -100,12 +100,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmin }) => {
             onClick={(e) => handleNavClick(e, '#home')}
             className="group flex items-center gap-2.5 text-left focus:outline-none"
           >
-            <img 
-              src={websiteConfig.logo_image_url || '/logo.png'} 
-              alt={websiteConfig.website_name || 'MS Web Studio'}
-              className="w-[32px] h-[32px] sm:w-[40px] sm:h-[40px] object-contain shrink-0 group-hover:scale-105 transition-transform"
-              referrerPolicy="no-referrer"
-            />
+            {websiteConfig.logo_image_url ? (
+              <img 
+                src={websiteConfig.logo_image_url} 
+                alt={websiteConfig.website_name || 'MS Web Studio'}
+                className="w-[32px] h-[32px] sm:w-[40px] sm:h-[40px] object-contain shrink-0 group-hover:scale-105 transition-transform"
+                referrerPolicy="no-referrer"
+              />
+            ) : null}
             <div className="flex flex-col">
               <span className="text-base sm:text-lg font-bold tracking-tight text-[#0F172A] group-hover:text-[#2563EB] transition-colors">
                 {websiteConfig.logo_text || siteConfig.logoText || 'MS WEB STUDIO'}

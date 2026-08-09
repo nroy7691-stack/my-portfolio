@@ -56,12 +56,14 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
           {/* Brand Column */}
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-2.5">
-              <img 
-                src={websiteConfig.logo_image_url || '/logo.png'} 
-                alt={websiteConfig.website_name || 'MS Web Studio'}
-                className="w-9 h-9 object-contain shrink-0"
-                referrerPolicy="no-referrer"
-              />
+              {websiteConfig.logo_image_url ? (
+                <img 
+                  src={websiteConfig.logo_image_url} 
+                  alt={websiteConfig.website_name || 'MS Web Studio'}
+                  className="w-[48px] h-[48px] object-contain shrink-0"
+                  referrerPolicy="no-referrer"
+                />
+              ) : null}
               <div className="flex flex-col">
                 <span className="text-lg font-bold tracking-tight text-white">
                   {websiteConfig.logo_text || siteConfig.logoText}

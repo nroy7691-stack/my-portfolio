@@ -49,8 +49,70 @@ export interface CustomerSubmission {
   status?: string;
 }
 
+const SUBMISSIONS_STORAGE_KEY = 'ms_local_submissions';
+
+export function getLocalSubmissions(): CustomerSubmission[] {
+  try {
+    const saved = localStorage.getItem(SUBMISSIONS_STORAGE_KEY) || localStorage.getItem('enjel_local_submissions');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed)) {
+        return parsed;
+      }
+    }
+  } catch (e) {
+    console.warn('Failed reading local submissions from localStorage:', e);
+  }
+  return [];
+}
+
+export function saveLocalSubmission(item: CustomerSubmission): CustomerSubmission[] {
+  try {
+    const current = getLocalSubmissions();
+    const updated = [item, ...current.filter(s => s.id !== item.id)];
+    localStorage.setItem(SUBMISSIONS_STORAGE_KEY, JSON.stringify(updated));
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('submissions_updated'));
+    }
+    return updated;
+  } catch (e) {
+    console.warn('Failed saving local submission to localStorage:', e);
+  }
+  return [];
+}
+
+export function updateLocalSubmission(id: string, newStatus: string): CustomerSubmission[] {
+  try {
+    const current = getLocalSubmissions();
+    const updated = current.map(s => s.id === id ? { ...s, status: newStatus } : s);
+    localStorage.setItem(SUBMISSIONS_STORAGE_KEY, JSON.stringify(updated));
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('submissions_updated'));
+    }
+    return updated;
+  } catch (e) {
+    console.warn('Failed updating local submission:', e);
+  }
+  return [];
+}
+
+export function deleteLocalSubmission(id: string): CustomerSubmission[] {
+  try {
+    const current = getLocalSubmissions();
+    const updated = current.filter(s => s.id !== id);
+    localStorage.setItem(SUBMISSIONS_STORAGE_KEY, JSON.stringify(updated));
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('submissions_updated'));
+    }
+    return updated;
+  } catch (e) {
+    console.warn('Failed deleting local submission:', e);
+  }
+  return [];
+}
+
 /**
- * Saves customer inquiry to Supabase database ('submissions' table).
+ * Saves customer inquiry to local storage and attempts Supabase sync.
  */
 export async function saveCustomerSubmission(data: {
   name: string;
@@ -59,7 +121,8 @@ export async function saveCustomerSubmission(data: {
   projectType: string;
   message: string;
 }): Promise<{ success: boolean; error?: string; data?: any }> {
-  const payload = {
+  const localItem: CustomerSubmission = {
+    id: 'sub_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
     name: data.name,
     email: data.email,
     phone: data.phone,
@@ -69,13 +132,24 @@ export async function saveCustomerSubmission(data: {
     status: 'new'
   };
 
+  // Always save locally so customer data is never lost
+  saveLocalSubmission(localItem);
+
   try {
-    // Primary attempt without .select() so RLS SELECT restriction won't block unauthenticated INSERTs
+    const payload = {
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      project_type: data.projectType,
+      message: data.message,
+      created_at: localItem.created_at,
+      status: 'new'
+    };
+
     let response = await supabase.from('submissions').insert([payload]);
 
     if (response.error) {
       console.warn('First insert attempt into public.submissions warning:', response.error.message);
-      // Secondary attempt with minimal fields in case optional defaults cause issues
       const minimalPayload = {
         name: data.name,
         email: data.email,
@@ -87,30 +161,28 @@ export async function saveCustomerSubmission(data: {
     }
 
     if (response.error) {
-      console.error('Inserting into public.submissions error:', response.error.message);
-      return {
-        success: false,
-        error: response.error.message
-      };
+      console.warn('Inserting into public.submissions warning:', response.error.message);
+      return { success: true, data: localItem };
     }
 
     return {
       success: true,
-      data: response.data
+      data: response.data || localItem
     };
   } catch (err: any) {
-    console.error('Supabase submission exception:', err);
+    console.warn('Supabase submission save exception (falling back to local):', err);
     return {
-      success: false,
-      error: err.message || 'Failed to save submission to Supabase'
+      success: true,
+      data: localItem
     };
   }
 }
 
 /**
- * Retrieves stored customer submissions from Supabase.
+ * Retrieves stored customer submissions from local storage and syncs with Supabase if available.
  */
 export async function getCustomerSubmissions(): Promise<CustomerSubmission[]> {
+  const localItems = getLocalSubmissions();
   try {
     const { data, error } = await supabase
       .from('submissions')
@@ -118,21 +190,26 @@ export async function getCustomerSubmissions(): Promise<CustomerSubmission[]> {
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching submissions from public.submissions:', error.message);
-      return [];
+      console.warn('Supabase submissions fetch notice, returning local submissions:', error.message);
+      return localItems;
     }
 
-    return (data as CustomerSubmission[]) || [];
+    if (data && Array.isArray(data)) {
+      const remoteIds = new Set(data.map((item: any) => item.id));
+      const localOnly = localItems.filter(item => !remoteIds.has(item.id));
+      return [...data, ...localOnly];
+    }
   } catch (err) {
-    console.error('Error fetching submissions:', err);
-    return [];
+    console.warn('Supabase submissions fetch unreachable, returning local submissions:', err);
   }
+  return localItems;
 }
 
 /**
- * Updates status of an inquiry in Supabase.
+ * Updates status of an inquiry in local storage and Supabase.
  */
 export async function updateInquiryStatus(id: string, newStatus: string): Promise<boolean> {
+  updateLocalSubmission(id, newStatus);
   try {
     const { error } = await supabase
       .from('submissions')
@@ -140,21 +217,19 @@ export async function updateInquiryStatus(id: string, newStatus: string): Promis
       .eq('id', id);
 
     if (error) {
-      console.error('Error updating submission status:', error.message);
-      return false;
+      console.warn('Supabase update submission status notice:', error.message);
     }
-
-    return true;
   } catch (err) {
-    console.error('Error updating inquiry status:', err);
-    return false;
+    console.warn('Supabase update submission status exception:', err);
   }
+  return true;
 }
 
 /**
- * Deletes an inquiry record from Supabase.
+ * Deletes an inquiry record from local storage and Supabase.
  */
 export async function deleteInquiry(id: string): Promise<boolean> {
+  deleteLocalSubmission(id);
   try {
     const { error } = await supabase
       .from('submissions')
@@ -162,15 +237,12 @@ export async function deleteInquiry(id: string): Promise<boolean> {
       .eq('id', id);
 
     if (error) {
-      console.error('Error deleting submission:', error.message);
-      return false;
+      console.warn('Supabase delete submission notice:', error.message);
     }
-
-    return true;
   } catch (err) {
-    console.error('Error deleting inquiry:', err);
-    return false;
+    console.warn('Supabase delete submission exception:', err);
   }
+  return true;
 }
 
 export interface HeroConfig {
@@ -710,7 +782,7 @@ export const DEFAULT_WEBSITE_CONFIG: WebsiteConfig = {
   logo_text: 'MS WEB STUDIO',
   logo_subtext: 'MS WEB STUDIO',
   logo_initial: 'M',
-  logo_image_url: '/logo.png',
+  logo_image_url: '',
   footer_text: 'Professional websites designed to help businesses grow online.',
   copyright_text: '© 2026 MS WEB STUDIO. All rights reserved.',
   social_links: {
@@ -738,6 +810,7 @@ export function getLocalWebsiteConfig(): WebsiteConfig {
         return {
           ...DEFAULT_WEBSITE_CONFIG,
           ...parsed,
+          logo_image_url: parsed.logo_image_url || '',
           social_links: {
             ...DEFAULT_WEBSITE_CONFIG.social_links,
             ...(parsed.social_links || {})

@@ -379,11 +379,7 @@ export const AdminWebsiteManager: React.FC<AdminWebsiteManagerProps> = ({ onNoti
                   alt="Brand Logo" 
                   className="w-9 h-9 object-contain rounded-xl"
                 />
-              ) : (
-                <div className="w-9 h-9 rounded-xl bg-[#2563EB] flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-600/20">
-                  {formData.logo_initial || 'M'}
-                </div>
-              )}
+              ) : null}
 
               <div className="flex flex-col">
                 <span className="text-base font-bold tracking-tight text-[#0F172A]">
@@ -409,11 +405,7 @@ export const AdminWebsiteManager: React.FC<AdminWebsiteManagerProps> = ({ onNoti
                   alt="Brand Logo" 
                   className="w-8 h-8 object-contain rounded-lg"
                 />
-              ) : (
-                <div className="w-8 h-8 rounded-xl bg-[#2563EB] flex items-center justify-center text-white font-black text-xs shadow-md">
-                  {formData.logo_initial || 'M'}
-                </div>
-              )}
+              ) : null}
               <div className="flex flex-col">
                 <span className="text-sm font-bold tracking-tight text-white">
                   {formData.logo_text}
